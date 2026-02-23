@@ -41,6 +41,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
   const [currentModelId, setCurrentModelId] = useState(modelId);
   const [currentPresetId, setCurrentPresetId] = useState("caption_writer");
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleModelIdChange = (newModelId: string) => {
     setCurrentModelId(newModelId);
@@ -102,9 +103,15 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                     presetId={currentPresetId}
                     onPresetChange={setCurrentPresetId}
                   />
-                  <TemplatePanel onSelectTemplate={(prompt) => setInput(prompt)} />
+                  <TemplatePanel
+                    onSelectTemplate={(prompt) => {
+                      setInput(prompt);
+                      inputRef.current?.focus();
+                    }}
+                  />
                   <div className="flex flex-1 items-center">
                     <Input
+                      ref={inputRef}
                       name="prompt"
                       placeholder="Ask a question..."
                       onChange={(e) => setInput(e.target.value)}
@@ -215,6 +222,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
               <TemplatePanel onSelectTemplate={(prompt) => setInput(prompt)} />
               <div className="flex flex-1 items-center">
                 <Input
+                  ref={inputRef}
                   name="prompt"
                   placeholder="Ask a question..."
                   onChange={(e) => setInput(e.target.value)}
