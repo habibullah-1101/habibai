@@ -15,7 +15,6 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Streamdown } from "streamdown";
 import { PresetSelector } from "@/components/preset-selector";
-import { PRESETS } from "@/lib/presets";
 
 function ModelSelectorHandler({
   modelId,
@@ -39,7 +38,7 @@ function ModelSelectorHandler({
 export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
   const [input, setInput] = useState("");
   const [currentModelId, setCurrentModelId] = useState(modelId);
-  const [presetId, setPresetId] = useState(PRESETS[0]?.id ?? "");
+  const [currentPresetId, setCurrentPresetId] = useState("caption_writer");
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const handleModelIdChange = (newModelId: string) => {
@@ -89,7 +88,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  sendMessage({ text: input }, { body: { modelId: currentModelId } });
+                  sendMessage({ text: input }, { body: { modelId: currentModelId, presetId: currentPresetId } });
                   setInput("");
                 }}
               >
@@ -99,8 +98,8 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                     onModelIdChange={handleModelIdChange}
                   />
                   <PresetSelector
-                    presetId={presetId}
-                    onPresetChange={setPresetId}
+                    presetId={currentPresetId}
+                    onPresetChange={setCurrentPresetId}
                   />
                   <div className="flex flex-1 items-center">
                     <Input
@@ -114,7 +113,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                         if (e.metaKey && e.key === "Enter") {
                           sendMessage(
                             { text: input },
-                            { body: { modelId: currentModelId } },
+                            { body: { modelId: currentModelId, presetId: currentPresetId } },
                           );
                           setInput("");
                         }
@@ -197,7 +196,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              sendMessage({ text: input }, { body: { modelId: currentModelId } });
+              sendMessage({ text: input }, { body: { modelId: currentModelId, presetId: currentPresetId } });
               setInput("");
             }}
             className="px-4 md:px-8 pb-6 md:pb-8"
@@ -208,8 +207,8 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                 onModelIdChange={handleModelIdChange}
               />
               <PresetSelector
-                presetId={presetId}
-                onPresetChange={setPresetId}
+                presetId={currentPresetId}
+                onPresetChange={setCurrentPresetId}
               />
               <div className="flex flex-1 items-center">
                 <Input
@@ -222,7 +221,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                     if (e.metaKey && e.key === "Enter") {
                       sendMessage(
                         { text: input },
-                        { body: { modelId: currentModelId } },
+                        { body: { modelId: currentModelId, presetId: currentPresetId } },
                       );
                       setInput("");
                     }
