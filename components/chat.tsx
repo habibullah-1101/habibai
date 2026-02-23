@@ -14,6 +14,8 @@ import { AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Streamdown } from "streamdown";
+import { PresetSelector } from "@/components/preset-selector";
+import { PRESETS } from "@/lib/presets";
 
 function ModelSelectorHandler({
   modelId,
@@ -37,6 +39,7 @@ function ModelSelectorHandler({
 export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
   const [input, setInput] = useState("");
   const [currentModelId, setCurrentModelId] = useState(modelId);
+  const [presetId, setPresetId] = useState(PRESETS[0]?.id ?? "");
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const handleModelIdChange = (newModelId: string) => {
@@ -94,6 +97,10 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                   <ModelSelectorHandler
                     modelId={modelId}
                     onModelIdChange={handleModelIdChange}
+                  />
+                  <PresetSelector
+                    presetId={presetId}
+                    onPresetChange={setPresetId}
                   />
                   <div className="flex flex-1 items-center">
                     <Input
@@ -199,6 +206,10 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
               <ModelSelectorHandler
                 modelId={modelId}
                 onModelIdChange={handleModelIdChange}
+              />
+              <PresetSelector
+                presetId={presetId}
+                onPresetChange={setPresetId}
               />
               <div className="flex flex-1 items-center">
                 <Input
