@@ -8,7 +8,7 @@ import { TEMPLATES } from "@/lib/templates";
 export function TemplatePanel({
   onSelectTemplate,
 }: {
-  onSelectTemplate: (templateId: string) => void;
+  onSelectTemplate: (templatePrompt: string) => void;
 }) {
   const [open, setOpen] = useState(false);
 
