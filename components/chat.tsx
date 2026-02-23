@@ -251,7 +251,14 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
               model library
             </a>
           </Button>{" "}
-          for the full set.
+          for the full set. {" "}
+          <Button
+            variant="link"
+            asChild
+            className="p-0 h-auto text-xs md:text-sm font-normal"
+          >
+            <Link href="/about">About</Link>
+          </Button>
         </p>
       </footer>
     </div>
