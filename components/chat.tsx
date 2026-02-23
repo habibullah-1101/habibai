@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Streamdown } from "streamdown";
 import { PresetSelector } from "@/components/preset-selector";
+import { TemplatePanel } from "@/components/template-panel";
 
 function ModelSelectorHandler({
   modelId,
@@ -101,6 +102,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                     presetId={currentPresetId}
                     onPresetChange={setCurrentPresetId}
                   />
+                  <TemplatePanel onSelectTemplate={(prompt) => setInput(prompt)} />
                   <div className="flex flex-1 items-center">
                     <Input
                       name="prompt"
