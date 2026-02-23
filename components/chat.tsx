@@ -212,6 +212,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                 presetId={currentPresetId}
                 onPresetChange={setCurrentPresetId}
               />
+              <TemplatePanel onSelectTemplate={(prompt) => setInput(prompt)} />
               <div className="flex flex-1 items-center">
                 <Input
                   name="prompt"
