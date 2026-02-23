@@ -3,6 +3,7 @@
 import { useChat } from "@ai-sdk/react";
 import { useRouter } from "next/navigation";
 import { ModelSelector } from "@/components/model-selector";
+import { PresetSelector } from "@/components/preset-selector";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -37,6 +38,7 @@ function ModelSelectorHandler({
 export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
   const [input, setInput] = useState("");
   const [currentModelId, setCurrentModelId] = useState(modelId);
+  const [currentPresetId, setCurrentPresetId] = useState("caption_writer");
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const handleModelIdChange = (newModelId: string) => {
@@ -86,7 +88,10 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  sendMessage({ text: input }, { body: { modelId: currentModelId } });
+                  sendMessage(
+                    { text: input },
+                    { body: { modelId: currentModelId, presetId: currentPresetId } },
+                  );
                   setInput("");
                 }}
               >
@@ -94,6 +99,10 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                   <ModelSelectorHandler
                     modelId={modelId}
                     onModelIdChange={handleModelIdChange}
+                  />
+                  <PresetSelector
+                    presetId={currentPresetId}
+                    onPresetChange={setCurrentPresetId}
                   />
                   <div className="flex flex-1 items-center">
                     <Input
@@ -107,7 +116,12 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                         if (e.metaKey && e.key === "Enter") {
                           sendMessage(
                             { text: input },
-                            { body: { modelId: currentModelId } },
+                            {
+                              body: {
+                                modelId: currentModelId,
+                                presetId: currentPresetId,
+                              },
+                            },
                           );
                           setInput("");
                         }
@@ -190,7 +204,10 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              sendMessage({ text: input }, { body: { modelId: currentModelId } });
+              sendMessage(
+                { text: input },
+                { body: { modelId: currentModelId, presetId: currentPresetId } },
+              );
               setInput("");
             }}
             className="px-4 md:px-8 pb-6 md:pb-8"
@@ -199,6 +216,10 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
               <ModelSelectorHandler
                 modelId={modelId}
                 onModelIdChange={handleModelIdChange}
+              />
+              <PresetSelector
+                presetId={currentPresetId}
+                onPresetChange={setCurrentPresetId}
               />
               <div className="flex flex-1 items-center">
                 <Input
@@ -211,7 +232,12 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                     if (e.metaKey && e.key === "Enter") {
                       sendMessage(
                         { text: input },
-                        { body: { modelId: currentModelId } },
+                        {
+                          body: {
+                            modelId: currentModelId,
+                            presetId: currentPresetId,
+                          },
+                        },
                       );
                       setInput("");
                     }
