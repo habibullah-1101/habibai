@@ -37,8 +37,6 @@ function ModelSelectorHandler({
   return <ModelSelector modelId={modelId} onModelChange={handleSelectChange} />;
 }
 
-void ModelSelectorHandler;
-
 export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
   const [input, setInput] = useState("");
   const [currentModelId, setCurrentModelId] = useState(modelId);
@@ -49,8 +47,6 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
   const handleModelIdChange = (newModelId: string) => {
     setCurrentModelId(newModelId);
   };
-
-  void handleModelIdChange;
 
   const { messages, error, sendMessage, regenerate, setMessages, stop, status } = useChat();
 
@@ -83,6 +79,10 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
             </Link>
           </div>
           <div className="flex items-center gap-2">
+            <ModelSelectorHandler
+              modelId={currentModelId}
+              onModelIdChange={handleModelIdChange}
+            />
             <Button
               onClick={handleNewChat}
               variant="outline"
