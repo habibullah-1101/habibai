@@ -79,6 +79,10 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
             </Link>
           </div>
           <div className="flex items-center gap-2">
+            <ModelSelectorHandler
+              modelId={currentModelId}
+              onModelIdChange={handleModelIdChange}
+            />
             <Button
               onClick={handleNewChat}
               variant="outline"
@@ -111,7 +115,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
               >
                 <div className="flex items-center gap-2 md:gap-3 p-3 md:p-4 rounded-2xl glass-effect shadow-border-medium transition-all duration-200 ease-out">
                   <ModelSelectorHandler
-                    modelId={modelId}
+                    modelId={currentModelId}
                     onModelIdChange={handleModelIdChange}
                   />
                   <PresetSelector
@@ -239,7 +243,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
           >
             <div className="flex items-center gap-3 p-4 rounded-2xl glass-effect shadow-border-medium transition-all duration-200 ease-out">
               <ModelSelectorHandler
-                modelId={modelId}
+                modelId={currentModelId}
                 onModelIdChange={handleModelIdChange}
               />
               <PresetSelector
