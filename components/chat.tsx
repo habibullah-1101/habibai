@@ -68,19 +68,32 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
 
   return (
     <div className="flex flex-col h-screen overflow-hidden">
-      <div className="absolute top-3 left-3 md:top-4 md:left-4 z-10 flex gap-2 animate-fade-in">
-        <Button
-          onClick={handleNewChat}
-          variant="outline"
-          size="icon"
-          className="h-9 w-9 shadow-border-small hover:shadow-border-medium bg-background/80 backdrop-blur-sm border-0 hover:bg-background hover:scale-[1.02] transition-all duration-150 ease"
-        >
-          <PlusIcon className="h-4 w-4" />
-        </Button>
-        <ThemeToggle />
-      </div>
+      <header className="fixed top-0 left-0 right-0 z-20 border-b bg-background/90 backdrop-blur-sm animate-fade-in">
+        <div className="mx-auto flex h-14 w-full max-w-4xl items-center justify-between px-4 md:px-8">
+          <div className="flex items-center gap-4">
+            <Link href="/" className="font-semibold tracking-tight text-sm md:text-base">
+              HABIB AI
+            </Link>
+            <Link href="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              About
+            </Link>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              onClick={handleNewChat}
+              variant="outline"
+              size="sm"
+              className="h-9 px-3 shadow-border-small hover:shadow-border-medium"
+            >
+              <PlusIcon className="mr-1.5 h-4 w-4" />
+              New Chat
+            </Button>
+            <ThemeToggle />
+          </div>
+        </div>
+      </header>
       {!hasMessages && (
-        <div className="flex-1 flex flex-col items-center justify-center px-4 md:px-8 animate-fade-in">
+        <div className="flex-1 flex flex-col items-center justify-center px-4 pt-16 md:px-8 animate-fade-in">
           <div className="w-full max-w-2xl text-center space-y-8 md:space-y-12">
             <h1 className="text-3xl md:text-6xl font-light tracking-tight text-foreground animate-slide-up">
               <span className="font-mono font-semibold tracking-tight bg-foreground text-background px-4 py-3 rounded-2xl shadow-border-medium">
@@ -153,7 +166,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
       )}
 
       {hasMessages && (
-        <div className="flex-1 flex flex-col max-w-4xl mx-auto w-full animate-fade-in overflow-hidden">
+        <div className="flex-1 flex flex-col max-w-4xl mx-auto w-full pt-14 animate-fade-in overflow-hidden">
           <div className="flex-1 overflow-y-auto px-4 md:px-8 py-4 hide-scrollbar">
             <div className="flex flex-col gap-4 md:gap-6 pb-4">
               {messages.map((m) => (
