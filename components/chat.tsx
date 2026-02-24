@@ -16,6 +16,7 @@ import Link from "next/link";
 import { Streamdown } from "streamdown";
 import { PresetSelector } from "@/components/preset-selector";
 import { TemplatePanel } from "@/components/template-panel";
+import { SavedPrompts } from "@/components/saved-prompts";
 
 function ModelSelectorHandler({
   modelId,
@@ -140,6 +141,12 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                   </div>
                 </div>
               </form>
+              <div className="mt-4 md:mt-6">
+                <SavedPrompts
+                  currentInput={input}
+                  onPickPrompt={(text) => setInput(text)}
+                />
+              </div>
             </div>
           </div>
         </div>
