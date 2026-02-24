@@ -42,6 +42,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
   const [currentModelId, setCurrentModelId] = useState(modelId);
   const [currentPresetId, setCurrentPresetId] = useState("caption_writer");
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const emptyStateInputRef = useRef<HTMLTextAreaElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleModelIdChange = (newModelId: string) => {
@@ -121,18 +122,18 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                   <TemplatePanel
                     onSelectTemplate={(prompt) => {
                       setInput(prompt);
-                      inputRef.current?.focus();
+                      emptyStateInputRef.current?.focus();
                     }}
                   />
                   <div className="flex flex-1 items-center">
-                    <Input
-                      ref={inputRef}
+                    <textarea
+                      ref={emptyStateInputRef}
                       name="prompt"
-                      placeholder="Ask a question..."
+                      placeholder="Describe what you want the AI to do..."
                       onChange={(e) => setInput(e.target.value)}
                       value={input}
                       autoFocus
-                      className="flex-1 border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 text-base placeholder:text-muted-foreground/60"
+                      className="min-h-[120px] md:min-h-[160px] w-full resize-none border-0 bg-transparent text-base placeholder:text-muted-foreground/60 outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
                       onKeyDown={(e) => {
                         if (e.metaKey && e.key === "Enter") {
                           sendMessage(
