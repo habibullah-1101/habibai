@@ -209,6 +209,12 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
 
       {hasMessages && (
         <div className="w-full max-w-4xl mx-auto">
+          <div className="px-4 md:px-8 pb-3 md:pb-4">
+            <SavedPrompts
+              currentInput={input}
+              onPickPrompt={(text) => setInput(text)}
+            />
+          </div>
           <form
             onSubmit={(e) => {
               e.preventDefault();
