@@ -37,6 +37,8 @@ function ModelSelectorHandler({
   return <ModelSelector modelId={modelId} onModelChange={handleSelectChange} />;
 }
 
+void ModelSelectorHandler;
+
 export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
   const [input, setInput] = useState("");
   const [currentModelId, setCurrentModelId] = useState(modelId);
@@ -47,6 +49,8 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
   const handleModelIdChange = (newModelId: string) => {
     setCurrentModelId(newModelId);
   };
+
+  void handleModelIdChange;
 
   const { messages, error, sendMessage, regenerate, setMessages, stop, status } = useChat();
 
@@ -110,10 +114,6 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                 }}
               >
                 <div className="flex items-center gap-2 md:gap-3 p-3 md:p-4 rounded-2xl glass-effect shadow-border-medium transition-all duration-200 ease-out">
-                  <ModelSelectorHandler
-                    modelId={modelId}
-                    onModelIdChange={handleModelIdChange}
-                  />
                   <PresetSelector
                     presetId={currentPresetId}
                     onPresetChange={setCurrentPresetId}
@@ -238,10 +238,6 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
             className="px-4 md:px-8 pb-6 md:pb-8"
           >
             <div className="flex items-center gap-3 p-4 rounded-2xl glass-effect shadow-border-medium transition-all duration-200 ease-out">
-              <ModelSelectorHandler
-                modelId={modelId}
-                onModelIdChange={handleModelIdChange}
-              />
               <PresetSelector
                 presetId={currentPresetId}
                 onPresetChange={setCurrentPresetId}
