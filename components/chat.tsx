@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { ModelSelector } from "@/components/model-selector";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { SendIcon, PlusIcon } from "lucide-react";
+import { SendIcon, PlusIcon, Paperclip } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { DEFAULT_MODEL } from "@/lib/constants";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -40,9 +40,11 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
   const [input, setInput] = useState("");
   const [currentModelId, setCurrentModelId] = useState(modelId);
   const [currentPresetId, setCurrentPresetId] = useState("caption_writer");
+  const [selectedFileName, setSelectedFileName] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const emptyComposerRef = useRef<HTMLTextAreaElement>(null);
   const activeComposerRef = useRef<HTMLTextAreaElement>(null);
+  const uploadInputRef = useRef<HTMLInputElement>(null);
 
   const handleModelIdChange = (newModelId: string) => {
     setCurrentModelId(newModelId);
@@ -66,8 +68,23 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
     setInput("");
   };
 
+  const handleUploadClick = () => {
+    uploadInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    setSelectedFileName(file?.name ?? "");
+  };
+
   return (
     <div className="flex flex-col h-screen overflow-hidden pt-14">
+      <input
+        ref={uploadInputRef}
+        type="file"
+        className="hidden"
+        onChange={handleFileChange}
+      />
       <header className="fixed top-0 left-0 right-0 z-20 border-b bg-background/90 backdrop-blur-sm animate-fade-in">
         <div className="mx-auto flex h-14 w-full max-w-4xl items-center justify-between px-4 md:px-8">
           <div className="flex items-center gap-4">
@@ -145,6 +162,23 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                           emptyComposerRef.current?.focus();
                         }}
                       />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        title="Upload"
+                        aria-label="Upload"
+                        className="gap-1.5"
+                        onClick={handleUploadClick}
+                      >
+                        <Paperclip className="h-4 w-4" />
+                        <span className="hidden md:inline">Upload</span>
+                      </Button>
+                      {selectedFileName && (
+                        <span className="hidden md:inline text-xs text-muted-foreground truncate max-w-[180px]">
+                          {selectedFileName}
+                        </span>
+                      )}
                     </div>
                     <Button
                       type="submit"
@@ -271,6 +305,23 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                       activeComposerRef.current?.focus();
                     }}
                   />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    title="Upload"
+                    aria-label="Upload"
+                    className="gap-1.5"
+                    onClick={handleUploadClick}
+                  >
+                    <Paperclip className="h-4 w-4" />
+                    <span className="hidden md:inline">Upload</span>
+                  </Button>
+                  {selectedFileName && (
+                    <span className="hidden md:inline text-xs text-muted-foreground truncate max-w-[180px]">
+                      {selectedFileName}
+                    </span>
+                  )}
                 </div>
                 <Button
                   type="submit"
