@@ -43,6 +43,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
   const [currentPresetId, setCurrentPresetId] = useState("caption_writer");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const emptyInputRef = useRef<HTMLTextAreaElement>(null);
 
   const handleModelIdChange = (newModelId: string) => {
     setCurrentModelId(newModelId);
@@ -113,41 +114,44 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                   setInput("");
                 }}
               >
-                <div className="flex items-center gap-2 md:gap-3 p-3 md:p-4 rounded-2xl glass-effect shadow-border-medium transition-all duration-200 ease-out">
-                  <PresetSelector
-                    presetId={currentPresetId}
-                    onPresetChange={setCurrentPresetId}
-                  />
-                  <TemplatePanel
-                    onSelectTemplate={(prompt) => {
-                      setInput(prompt);
-                      inputRef.current?.focus();
+                <div className="p-3 md:p-4 rounded-2xl glass-effect shadow-border-medium transition-all duration-200 ease-out">
+                  <textarea
+                    ref={emptyInputRef}
+                    name="prompt"
+                    placeholder="Ask a question..."
+                    onChange={(e) => setInput(e.target.value)}
+                    value={input}
+                    autoFocus
+                    rows={4}
+                    className="w-full resize-none border-0 bg-transparent text-base placeholder:text-muted-foreground/60 focus-visible:outline-none"
+                    onKeyDown={(e) => {
+                      if (e.metaKey && e.key === "Enter") {
+                        sendMessage(
+                          { text: input },
+                          { body: { modelId: currentModelId, presetId: currentPresetId } },
+                        );
+                        setInput("");
+                      }
                     }}
                   />
-                  <div className="flex flex-1 items-center">
-                    <Input
-                      ref={inputRef}
-                      name="prompt"
-                      placeholder="Ask a question..."
-                      onChange={(e) => setInput(e.target.value)}
-                      value={input}
-                      autoFocus
-                      className="flex-1 border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 text-base placeholder:text-muted-foreground/60"
-                      onKeyDown={(e) => {
-                        if (e.metaKey && e.key === "Enter") {
-                          sendMessage(
-                            { text: input },
-                            { body: { modelId: currentModelId, presetId: currentPresetId } },
-                          );
-                          setInput("");
-                        }
-                      }}
-                    />
+                  <div className="mt-3 border-t border-border/50 pt-3 flex items-center justify-between gap-3 md:gap-4">
+                    <div className="flex items-center gap-2 md:gap-3">
+                      <PresetSelector
+                        presetId={currentPresetId}
+                        onPresetChange={setCurrentPresetId}
+                      />
+                      <TemplatePanel
+                        onSelectTemplate={(prompt) => {
+                          setInput(prompt);
+                          emptyInputRef.current?.focus();
+                        }}
+                      />
+                    </div>
                     <Button
                       type="submit"
                       size="icon"
                       variant="ghost"
-                      className="h-9 w-9 rounded-xl hover:bg-muted/50"
+                      className="h-9 w-9 rounded-full hover:bg-muted/50"
                       disabled={!input.trim()}
                     >
                       <SendIcon className="h-4 w-4" />
