@@ -4,7 +4,6 @@ import { useChat } from "@ai-sdk/react";
 import { useRouter } from "next/navigation";
 import { ModelSelector } from "@/components/model-selector";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { SendIcon, PlusIcon } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
@@ -42,8 +41,8 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
   const [currentModelId, setCurrentModelId] = useState(modelId);
   const [currentPresetId, setCurrentPresetId] = useState("caption_writer");
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const emptyStateInputRef = useRef<HTMLTextAreaElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const emptyComposerRef = useRef<HTMLTextAreaElement>(null);
+  const activeComposerRef = useRef<HTMLTextAreaElement>(null);
 
   const handleModelIdChange = (newModelId: string) => {
     setCurrentModelId(newModelId);
@@ -114,41 +113,44 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                   setInput("");
                 }}
               >
-                <div className="flex items-center gap-2 md:gap-3 p-3 md:p-4 rounded-2xl glass-effect shadow-border-medium transition-all duration-200 ease-out">
-                  <PresetSelector
-                    presetId={currentPresetId}
-                    onPresetChange={setCurrentPresetId}
-                  />
-                  <TemplatePanel
-                    onSelectTemplate={(prompt) => {
-                      setInput(prompt);
-                      emptyStateInputRef.current?.focus();
+                <div className="rounded-2xl glass-effect shadow-border-medium transition-all duration-200 ease-out">
+                  <textarea
+                    ref={emptyComposerRef}
+                    name="prompt"
+                    placeholder="Describe what you want the AI to do..."
+                    onChange={(e) => setInput(e.target.value)}
+                    value={input}
+                    autoFocus
+                    className="min-h-[120px] md:min-h-[160px] w-full resize-none border-0 bg-transparent p-3 md:p-4 text-base placeholder:text-muted-foreground/60 outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
+                    onKeyDown={(e) => {
+                      if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+                        e.preventDefault();
+                        sendMessage(
+                          { text: input },
+                          { body: { modelId: currentModelId, presetId: currentPresetId } },
+                        );
+                        setInput("");
+                      }
                     }}
                   />
-                  <div className="flex flex-1 items-center">
-                    <textarea
-                      ref={emptyStateInputRef}
-                      name="prompt"
-                      placeholder="Describe what you want the AI to do..."
-                      onChange={(e) => setInput(e.target.value)}
-                      value={input}
-                      autoFocus
-                      className="min-h-[120px] md:min-h-[160px] w-full resize-none border-0 bg-transparent text-base placeholder:text-muted-foreground/60 outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
-                      onKeyDown={(e) => {
-                        if (e.metaKey && e.key === "Enter") {
-                          sendMessage(
-                            { text: input },
-                            { body: { modelId: currentModelId, presetId: currentPresetId } },
-                          );
-                          setInput("");
-                        }
-                      }}
-                    />
+                  <div className="flex items-center justify-between gap-3 border-t p-3 md:p-4">
+                    <div className="flex items-center gap-2 md:gap-3">
+                      <PresetSelector
+                        presetId={currentPresetId}
+                        onPresetChange={setCurrentPresetId}
+                      />
+                      <TemplatePanel
+                        onSelectTemplate={(prompt) => {
+                          setInput(prompt);
+                          emptyComposerRef.current?.focus();
+                        }}
+                      />
+                    </div>
                     <Button
                       type="submit"
                       size="icon"
                       variant="ghost"
-                      className="h-9 w-9 rounded-xl hover:bg-muted/50"
+                      className="h-9 w-9 rounded-full hover:bg-muted/50"
                       disabled={!input.trim()}
                     >
                       <SendIcon className="h-4 w-4" />
@@ -238,40 +240,43 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
             }}
             className="px-4 md:px-8 pb-6 md:pb-8"
           >
-            <div className="flex items-center gap-3 p-4 rounded-2xl glass-effect shadow-border-medium transition-all duration-200 ease-out">
-              <PresetSelector
-                presetId={currentPresetId}
-                onPresetChange={setCurrentPresetId}
-              />
-              <TemplatePanel
-                onSelectTemplate={(prompt) => {
-                  setInput(prompt);
-                  inputRef.current?.focus();
+            <div className="rounded-2xl glass-effect shadow-border-medium transition-all duration-200 ease-out">
+              <textarea
+                ref={activeComposerRef}
+                name="prompt"
+                placeholder="Describe what you want the AI to do..."
+                onChange={(e) => setInput(e.target.value)}
+                value={input}
+                className="min-h-[120px] md:min-h-[160px] w-full resize-none border-0 bg-transparent p-3 md:p-4 text-base placeholder:text-muted-foreground/60 outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
+                onKeyDown={(e) => {
+                  if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+                    e.preventDefault();
+                    sendMessage(
+                      { text: input },
+                      { body: { modelId: currentModelId, presetId: currentPresetId } },
+                    );
+                    setInput("");
+                  }
                 }}
               />
-              <div className="flex flex-1 items-center">
-                <Input
-                  ref={inputRef}
-                  name="prompt"
-                  placeholder="Ask a question..."
-                  onChange={(e) => setInput(e.target.value)}
-                  value={input}
-                  className="flex-1 border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 text-base placeholder:text-muted-foreground/60 font-medium"
-                  onKeyDown={(e) => {
-                    if (e.metaKey && e.key === "Enter") {
-                      sendMessage(
-                        { text: input },
-                        { body: { modelId: currentModelId, presetId: currentPresetId } },
-                      );
-                      setInput("");
-                    }
-                  }}
-                />
+              <div className="flex items-center justify-between gap-3 border-t p-3 md:p-4">
+                <div className="flex items-center gap-3">
+                  <PresetSelector
+                    presetId={currentPresetId}
+                    onPresetChange={setCurrentPresetId}
+                  />
+                  <TemplatePanel
+                    onSelectTemplate={(prompt) => {
+                      setInput(prompt);
+                      activeComposerRef.current?.focus();
+                    }}
+                  />
+                </div>
                 <Button
                   type="submit"
                   size="icon"
                   variant="ghost"
-                  className="h-9 w-9 rounded-xl hover:bg-accent hover:text-accent-foreground hover:scale-110 transition-all duration-150 ease disabled:opacity-50 disabled:hover:scale-100"
+                  className="h-9 w-9 rounded-full hover:bg-accent hover:text-accent-foreground hover:scale-110 transition-all duration-150 ease disabled:opacity-50 disabled:hover:scale-100"
                   disabled={!input.trim()}
                 >
                   <SendIcon className="h-4 w-4" />
