@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { LayoutTemplate } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TEMPLATES } from "@/lib/templates";
 
@@ -43,8 +44,13 @@ export function TemplatePanel({
 
   return (
     <div ref={containerRef} className="relative inline-block">
-      <Button type="button" onClick={() => setOpen((previous) => !previous)}>
-        Templates
+      <Button
+        type="button"
+        title="Templates"
+        onClick={() => setOpen((previous) => !previous)}
+      >
+        <LayoutTemplate className="h-4 w-4" />
+        <span className="hidden md:inline">Templates</span>
       </Button>
 
       {open ? (
