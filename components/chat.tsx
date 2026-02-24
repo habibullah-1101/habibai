@@ -67,7 +67,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
   };
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden">
+    <div className="flex flex-col h-screen overflow-hidden pt-14">
       <header className="fixed top-0 left-0 right-0 z-20 border-b bg-background/90 backdrop-blur-sm animate-fade-in">
         <div className="mx-auto flex h-14 w-full max-w-4xl items-center justify-between px-4 md:px-8">
           <div className="flex items-center gap-4">
@@ -93,7 +93,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
         </div>
       </header>
       {!hasMessages && (
-        <div className="flex-1 flex flex-col items-center justify-center px-4 pt-16 md:px-8 animate-fade-in">
+        <div className="flex-1 flex flex-col items-center justify-center px-4 md:px-8 animate-fade-in">
           <div className="w-full max-w-2xl text-center space-y-8 md:space-y-12">
             <h1 className="text-3xl md:text-6xl font-light tracking-tight text-foreground animate-slide-up">
               <span className="font-mono font-semibold tracking-tight bg-foreground text-background px-4 py-3 rounded-2xl shadow-border-medium">
@@ -166,7 +166,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
       )}
 
       {hasMessages && (
-        <div className="flex-1 flex flex-col max-w-4xl mx-auto w-full pt-14 animate-fade-in overflow-hidden">
+        <div className="flex-1 flex flex-col max-w-4xl mx-auto w-full animate-fade-in overflow-hidden">
           <div className="flex-1 overflow-y-auto px-4 md:px-8 py-4 hide-scrollbar">
             <div className="flex flex-col gap-4 md:gap-6 pb-4">
               {messages.map((m) => (
