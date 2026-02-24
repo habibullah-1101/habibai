@@ -82,11 +82,12 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
             <Button
               onClick={handleNewChat}
               variant="outline"
-              size="sm"
-              className="h-9 px-3 shadow-border-small hover:shadow-border-medium"
+              size="icon"
+              title="Start new chat"
+              aria-label="Start new chat"
+              className="h-10 w-10 border-border/80 bg-muted/40 shadow-border-small hover:bg-muted/70 hover:shadow-border-medium"
             >
-              <PlusIcon className="mr-1.5 h-4 w-4" />
-              New Chat
+              <PlusIcon className="h-5 w-5" />
             </Button>
             <ThemeToggle />
           </div>
