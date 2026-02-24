@@ -26,10 +26,18 @@ export function TemplatePanel({
       }
     };
 
+    const handleDocumentKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+      }
+    };
+
     document.addEventListener("mousedown", handleDocumentMouseDown);
+    document.addEventListener("keydown", handleDocumentKeyDown);
 
     return () => {
       document.removeEventListener("mousedown", handleDocumentMouseDown);
+      document.removeEventListener("keydown", handleDocumentKeyDown);
     };
   }, [open]);
 
