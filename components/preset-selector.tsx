@@ -1,6 +1,7 @@
 "use client";
 
 import { memo } from "react";
+import { Sparkles } from "lucide-react";
 
 import { PRESETS } from "@/lib/presets";
 import {
@@ -24,8 +25,9 @@ export const PresetSelector = memo(function PresetSelector({
 }: PresetSelectorProps) {
   return (
     <Select value={presetId} onValueChange={onPresetChange}>
-      <SelectTrigger className="w-[180px] rounded-xl">
-        <SelectValue placeholder="Select preset" />
+      <SelectTrigger title="Presets" className="w-[180px] rounded-xl">
+        <Sparkles className="size-4 shrink-0" aria-hidden="true" />
+        <SelectValue className="hidden md:inline-flex" placeholder="Preset" />
       </SelectTrigger>
       <SelectContent
         align="start"
