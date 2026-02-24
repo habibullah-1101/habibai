@@ -1,0 +1,842 @@
+# Deployment verification log (GitHub + Vercel endpoints)
+Generated: 2026-02-23T20:02:33Z
+
+## 1) Latest main commit
+{
+  "sha": "c143b2719ecb80b7ae6ee3f713a582b0448a231f",
+  "node_id": "C_kwDORWg1CNoAKGMxNDNiMjcxOWVjYjgwYjdhZTZlZTNmNzEzYTU4MmIwNDQ4YTIzMWY",
+  "commit": {
+    "author": {
+      "name": "Habib Hussaini",
+      "email": "js7p6hdbw5@privaterelay.appleid.com",
+      "date": "2026-02-23T19:55:19Z"
+    },
+    "committer": {
+      "name": "GitHub",
+      "email": "noreply@github.com",
+      "date": "2026-02-23T19:55:19Z"
+    },
+    "message": "Merge pull request #23 from habibullah-1101/codex/improve-dropdown-positioning-in-template-panel\n\nImprove template dropdown positioning for mobile readability",
+    "tree": {
+      "sha": "1a0b27230c8a06d188835c8cb1b631c60f33f7f6",
+      "url": "https://api.github.com/repos/habibullah-1101/habibai/git/trees/1a0b27230c8a06d188835c8cb1b631c60f33f7f6"
+    },
+    "url": "https://api.github.com/repos/habibullah-1101/habibai/git/commits/c143b2719ecb80b7ae6ee3f713a582b0448a231f",
+    "comment_count": 0,
+    "verification": {
+      "verified": true,
+      "reason": "valid",
+      "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJpnLCnCRC1aQ7uu5UhlAAALHIQAGO3zs/2WiDlmpABtzAlyPme\naNqJcousgKNsVYeQMd8700ccoi6rzYN1d+PYjdBMMrBUaZMK5SAKJN6qbYU/HtYm\ndYM+BLW8xT8c/MQk6qymNm5rdnFrvnwacIQ2wxA3J7rul4+9aF9/7ydUpzMLbefQ\nvAhFctvaRf+D/hfgStn5EeSU2IMQYQ+EjDhddZ5tVo27HFigkuWumxk5YO29z9vb\ngbiiMY3dO5tTiwWejo7/ZdcvPEy8o2ukp79mGkwadb+J4nuRdmWT4IrsZHlDb2zr\nvbQTH8ampZ3idwYKOFm9OLCerxXYF4J/K9gJmbT65Bhl6z4ngb773zvkiTgNzWqc\nTrV3c2YgjVl8r/2tI13kXeLseizhg1MxA49zuvwkSgYQkbQAR3PePlle50GkurGo\ncG3lYfQdmx017M2I4kKvuRi32aCwQUZxjc+kng3x90KaWwnvkKa5KrI24/0aT+ye\noi34YzmfMUc/W5VmzaeYAQou4c2kHrbJWshyaVuMOR93cCvpXyfGgeGBxQarLCUV\nF8B1JcX/TbhD6IDYb4NEPawfal5hxQHmU+nR1GCqYbQwd58gZVM58C+LOf+tvZYp\nSeq7D7r3mutm5xkw9tGm1T1j4mXnivRNC29N6JpaaGlPrHoblOlfqWrzTd5NhLVw\nbubdKD0hlTiNokDQZ/bX\n=2snG\n-----END PGP SIGNATURE-----\n",
+      "payload": "tree 1a0b27230c8a06d188835c8cb1b631c60f33f7f6\nparent ef3b993fba82c6a79cd872d7486fb45ea67e14ce\nparent 5cbcf72111dfda744d5f44336f4b91302aa24f40\nauthor Habib Hussaini <js7p6hdbw5@privaterelay.appleid.com> 1771876519 +0430\ncommitter GitHub <noreply@github.com> 1771876519 +0430\n\nMerge pull request #23 from habibullah-1101/codex/improve-dropdown-positioning-in-template-panel\n\nImprove template dropdown positioning for mobile readability",
+      "verified_at": "2026-02-23T19:55:20Z"
+    }
+  },
+  "url": "https://api.github.com/repos/habibullah-1101/habibai/commits/c143b2719ecb80b7ae6ee3f713a582b0448a231f",
+  "html_url": "https://github.com/habibullah-1101/habibai/commit/c143b2719ecb80b7ae6ee3f713a582b0448a231f",
+  "comments_url": "https://api.github.com/repos/habibullah-1101/habibai/commits/c143b2719ecb80b7ae6ee3f713a582b0448a231f/comments",
+  "author": {
+    "login": "habibullah-1101",
+    "id": 258431724,
+    "node_id": "U_kgDOD2da7A",
+    "avatar_url": "https://avatars.githubusercontent.com/u/258431724?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/habibullah-1101",
+    "html_url": "https://github.com/habibullah-1101",
+    "followers_url": "https://api.github.com/users/habibullah-1101/followers",
+    "following_url": "https://api.github.com/users/habibullah-1101/following{/other_user}",
+    "gists_url": "https://api.github.com/users/habibullah-1101/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/habibullah-1101/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/habibullah-1101/subscriptions",
+    "organizations_url": "https://api.github.com/users/habibullah-1101/orgs",
+    "repos_url": "https://api.github.com/users/habibullah-1101/repos",
+    "events_url": "https://api.github.com/users/habibullah-1101/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/habibullah-1101/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "committer": {
+    "login": "web-flow",
+    "id": 19864447,
+    "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+    "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/web-flow",
+    "html_url": "https://github.com/web-flow",
+    "followers_url": "https://api.github.com/users/web-flow/followers",
+    "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+    "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+    "organizations_url": "https://api.github.com/users/web-flow/orgs",
+    "repos_url": "https://api.github.com/users/web-flow/repos",
+    "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/web-flow/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "parents": [
+    {
+      "sha": "ef3b993fba82c6a79cd872d7486fb45ea67e14ce",
+      "url": "https://api.github.com/repos/habibullah-1101/habibai/commits/ef3b993fba82c6a79cd872d7486fb45ea67e14ce",
+      "html_url": "https://github.com/habibullah-1101/habibai/commit/ef3b993fba82c6a79cd872d7486fb45ea67e14ce"
+    },
+    {
+      "sha": "5cbcf72111dfda744d5f44336f4b91302aa24f40",
+      "url": "https://api.github.com/repos/habibullah-1101/habibai/commits/5cbcf72111dfda744d5f44336f4b91302aa24f40",
+      "html_url": "https://github.com/habibullah-1101/habibai/commit/5cbcf72111dfda744d5f44336f4b91302aa24f40"
+    }
+  ],
+  "stats": {
+    "total": 2,
+    "additions": 1,
+    "deletions": 1
+  },
+  "files": [
+    {
+      "sha": "4ee993aac7a092ded7affa6013130c51cedf331c",
+      "filename": "components/template-panel.tsx",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/habibullah-1101/habibai/blob/c143b2719ecb80b7ae6ee3f713a582b0448a231f/components%2Ftemplate-panel.tsx",
+      "raw_url": "https://github.com/habibullah-1101/habibai/raw/c143b2719ecb80b7ae6ee3f713a582b0448a231f/components%2Ftemplate-panel.tsx",
+      "contents_url": "https://api.github.com/repos/habibullah-1101/habibai/contents/components%2Ftemplate-panel.tsx?ref=c143b2719ecb80b7ae6ee3f713a582b0448a231f",
+      "patch": "@@ -40,7 +40,7 @@ export function TemplatePanel({\n       </Button>\n \n       {open ? (\n-        <div className=\"absolute left-0 z-10 mt-2 w-56 rounded-md border bg-background p-1 shadow-md\">\n+        <div className=\"absolute left-0 top-full z-10 mt-2 max-h-64 w-56 max-w-[calc(100vw-2rem)] overflow-y-auto rounded-md border bg-background p-1 shadow-md\">\n           {TEMPLATES.map((template) => (\n             <button\n               key={template.id}"
+    }
+  ]
+}
+
+## 2) Commit status for latest main commit
+{
+  "state": "success",
+  "statuses": [
+    {
+      "url": "https://api.github.com/repos/habibullah-1101/habibai/statuses/c143b2719ecb80b7ae6ee3f713a582b0448a231f",
+      "avatar_url": "https://avatars.githubusercontent.com/in/8329?v=4",
+      "id": 43895577857,
+      "node_id": "SC_kwDORWg1CM8AAAAKOGFdAQ",
+      "state": "success",
+      "description": "Deployment has completed",
+      "target_url": "https://vercel.com/habibullah-1101s-projects/habibai/5wEgrLvYAXcxZCXN2bjK46DeSShL",
+      "context": "Vercel",
+      "created_at": "2026-02-23T19:56:38Z",
+      "updated_at": "2026-02-23T19:56:38Z"
+    }
+  ],
+  "sha": "c143b2719ecb80b7ae6ee3f713a582b0448a231f",
+  "total_count": 1,
+  "repository": {
+    "id": 1164457224,
+    "node_id": "R_kgDORWg1CA",
+    "name": "habibai",
+    "full_name": "habibullah-1101/habibai",
+    "private": false,
+    "owner": {
+      "login": "habibullah-1101",
+      "id": 258431724,
+      "node_id": "U_kgDOD2da7A",
+      "avatar_url": "https://avatars.githubusercontent.com/u/258431724?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/habibullah-1101",
+      "html_url": "https://github.com/habibullah-1101",
+      "followers_url": "https://api.github.com/users/habibullah-1101/followers",
+      "following_url": "https://api.github.com/users/habibullah-1101/following{/other_user}",
+      "gists_url": "https://api.github.com/users/habibullah-1101/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/habibullah-1101/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/habibullah-1101/subscriptions",
+      "organizations_url": "https://api.github.com/users/habibullah-1101/orgs",
+      "repos_url": "https://api.github.com/users/habibullah-1101/repos",
+      "events_url": "https://api.github.com/users/habibullah-1101/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/habibullah-1101/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "html_url": "https://github.com/habibullah-1101/habibai",
+    "description": null,
+    "fork": false,
+    "url": "https://api.github.com/repos/habibullah-1101/habibai",
+    "forks_url": "https://api.github.com/repos/habibullah-1101/habibai/forks",
+    "keys_url": "https://api.github.com/repos/habibullah-1101/habibai/keys{/key_id}",
+    "collaborators_url": "https://api.github.com/repos/habibullah-1101/habibai/collaborators{/collaborator}",
+    "teams_url": "https://api.github.com/repos/habibullah-1101/habibai/teams",
+    "hooks_url": "https://api.github.com/repos/habibullah-1101/habibai/hooks",
+    "issue_events_url": "https://api.github.com/repos/habibullah-1101/habibai/issues/events{/number}",
+    "events_url": "https://api.github.com/repos/habibullah-1101/habibai/events",
+    "assignees_url": "https://api.github.com/repos/habibullah-1101/habibai/assignees{/user}",
+    "branches_url": "https://api.github.com/repos/habibullah-1101/habibai/branches{/branch}",
+    "tags_url": "https://api.github.com/repos/habibullah-1101/habibai/tags",
+    "blobs_url": "https://api.github.com/repos/habibullah-1101/habibai/git/blobs{/sha}",
+    "git_tags_url": "https://api.github.com/repos/habibullah-1101/habibai/git/tags{/sha}",
+    "git_refs_url": "https://api.github.com/repos/habibullah-1101/habibai/git/refs{/sha}",
+    "trees_url": "https://api.github.com/repos/habibullah-1101/habibai/git/trees{/sha}",
+    "statuses_url": "https://api.github.com/repos/habibullah-1101/habibai/statuses/{sha}",
+    "languages_url": "https://api.github.com/repos/habibullah-1101/habibai/languages",
+    "stargazers_url": "https://api.github.com/repos/habibullah-1101/habibai/stargazers",
+    "contributors_url": "https://api.github.com/repos/habibullah-1101/habibai/contributors",
+    "subscribers_url": "https://api.github.com/repos/habibullah-1101/habibai/subscribers",
+    "subscription_url": "https://api.github.com/repos/habibullah-1101/habibai/subscription",
+    "commits_url": "https://api.github.com/repos/habibullah-1101/habibai/commits{/sha}",
+    "git_commits_url": "https://api.github.com/repos/habibullah-1101/habibai/git/commits{/sha}",
+    "comments_url": "https://api.github.com/repos/habibullah-1101/habibai/comments{/number}",
+    "issue_comment_url": "https://api.github.com/repos/habibullah-1101/habibai/issues/comments{/number}",
+    "contents_url": "https://api.github.com/repos/habibullah-1101/habibai/contents/{+path}",
+    "compare_url": "https://api.github.com/repos/habibullah-1101/habibai/compare/{base}...{head}",
+    "merges_url": "https://api.github.com/repos/habibullah-1101/habibai/merges",
+    "archive_url": "https://api.github.com/repos/habibullah-1101/habibai/{archive_format}{/ref}",
+    "downloads_url": "https://api.github.com/repos/habibullah-1101/habibai/downloads",
+    "issues_url": "https://api.github.com/repos/habibullah-1101/habibai/issues{/number}",
+    "pulls_url": "https://api.github.com/repos/habibullah-1101/habibai/pulls{/number}",
+    "milestones_url": "https://api.github.com/repos/habibullah-1101/habibai/milestones{/number}",
+    "notifications_url": "https://api.github.com/repos/habibullah-1101/habibai/notifications{?since,all,participating}",
+    "labels_url": "https://api.github.com/repos/habibullah-1101/habibai/labels{/name}",
+    "releases_url": "https://api.github.com/repos/habibullah-1101/habibai/releases{/id}",
+    "deployments_url": "https://api.github.com/repos/habibullah-1101/habibai/deployments"
+  },
+  "commit_url": "https://api.github.com/repos/habibullah-1101/habibai/commits/c143b2719ecb80b7ae6ee3f713a582b0448a231f",
+  "url": "https://api.github.com/repos/habibullah-1101/habibai/commits/c143b2719ecb80b7ae6ee3f713a582b0448a231f/status"
+}
+
+## 3) Deployments (latest 5)
+[
+  {
+    "url": "https://api.github.com/repos/habibullah-1101/habibai/deployments/3905984276",
+    "id": 3905984276,
+    "node_id": "DE_kwDORWg1CM7o0JcU",
+    "task": "deploy",
+    "original_environment": "Production",
+    "environment": "Production",
+    "description": null,
+    "created_at": "2026-02-23T19:56:39Z",
+    "updated_at": "2026-02-23T19:56:39Z",
+    "statuses_url": "https://api.github.com/repos/habibullah-1101/habibai/deployments/3905984276/statuses",
+    "repository_url": "https://api.github.com/repos/habibullah-1101/habibai",
+    "creator": {
+      "login": "vercel[bot]",
+      "id": 35613825,
+      "node_id": "MDM6Qm90MzU2MTM4MjU=",
+      "avatar_url": "https://avatars.githubusercontent.com/in/8329?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/vercel%5Bbot%5D",
+      "html_url": "https://github.com/apps/vercel",
+      "followers_url": "https://api.github.com/users/vercel%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/vercel%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/vercel%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/vercel%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/vercel%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/vercel%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/vercel%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/vercel%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/vercel%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "sha": "c143b2719ecb80b7ae6ee3f713a582b0448a231f",
+    "ref": "c143b2719ecb80b7ae6ee3f713a582b0448a231f",
+    "payload": {
+
+    },
+    "transient_environment": false,
+    "production_environment": false,
+    "performed_via_github_app": null
+  },
+  {
+    "url": "https://api.github.com/repos/habibullah-1101/habibai/deployments/3905972001",
+    "id": 3905972001,
+    "node_id": "DE_kwDORWg1CM7o0Gch",
+    "task": "deploy",
+    "original_environment": "Preview",
+    "environment": "Preview",
+    "description": null,
+    "created_at": "2026-02-23T19:54:55Z",
+    "updated_at": "2026-02-23T19:54:55Z",
+    "statuses_url": "https://api.github.com/repos/habibullah-1101/habibai/deployments/3905972001/statuses",
+    "repository_url": "https://api.github.com/repos/habibullah-1101/habibai",
+    "creator": {
+      "login": "vercel[bot]",
+      "id": 35613825,
+      "node_id": "MDM6Qm90MzU2MTM4MjU=",
+      "avatar_url": "https://avatars.githubusercontent.com/in/8329?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/vercel%5Bbot%5D",
+      "html_url": "https://github.com/apps/vercel",
+      "followers_url": "https://api.github.com/users/vercel%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/vercel%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/vercel%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/vercel%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/vercel%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/vercel%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/vercel%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/vercel%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/vercel%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "sha": "5cbcf72111dfda744d5f44336f4b91302aa24f40",
+    "ref": "5cbcf72111dfda744d5f44336f4b91302aa24f40",
+    "payload": {
+
+    },
+    "transient_environment": false,
+    "production_environment": false,
+    "performed_via_github_app": null
+  },
+  {
+    "url": "https://api.github.com/repos/habibullah-1101/habibai/deployments/3905962846",
+    "id": 3905962846,
+    "node_id": "DE_kwDORWg1CM7o0ENe",
+    "task": "deploy",
+    "original_environment": "Production",
+    "environment": "Production",
+    "description": null,
+    "created_at": "2026-02-23T19:53:37Z",
+    "updated_at": "2026-02-23T19:53:37Z",
+    "statuses_url": "https://api.github.com/repos/habibullah-1101/habibai/deployments/3905962846/statuses",
+    "repository_url": "https://api.github.com/repos/habibullah-1101/habibai",
+    "creator": {
+      "login": "vercel[bot]",
+      "id": 35613825,
+      "node_id": "MDM6Qm90MzU2MTM4MjU=",
+      "avatar_url": "https://avatars.githubusercontent.com/in/8329?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/vercel%5Bbot%5D",
+      "html_url": "https://github.com/apps/vercel",
+      "followers_url": "https://api.github.com/users/vercel%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/vercel%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/vercel%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/vercel%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/vercel%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/vercel%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/vercel%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/vercel%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/vercel%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "sha": "ef3b993fba82c6a79cd872d7486fb45ea67e14ce",
+    "ref": "ef3b993fba82c6a79cd872d7486fb45ea67e14ce",
+    "payload": {
+
+    },
+    "transient_environment": false,
+    "production_environment": false,
+    "performed_via_github_app": null
+  },
+  {
+    "url": "https://api.github.com/repos/habibullah-1101/habibai/deployments/3905892445",
+    "id": 3905892445,
+    "node_id": "DE_kwDORWg1CM7ozzBd",
+    "task": "deploy",
+    "original_environment": "Preview",
+    "environment": "Preview",
+    "description": null,
+    "created_at": "2026-02-23T19:43:41Z",
+    "updated_at": "2026-02-23T19:43:41Z",
+    "statuses_url": "https://api.github.com/repos/habibullah-1101/habibai/deployments/3905892445/statuses",
+    "repository_url": "https://api.github.com/repos/habibullah-1101/habibai",
+    "creator": {
+      "login": "vercel[bot]",
+      "id": 35613825,
+      "node_id": "MDM6Qm90MzU2MTM4MjU=",
+      "avatar_url": "https://avatars.githubusercontent.com/in/8329?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/vercel%5Bbot%5D",
+      "html_url": "https://github.com/apps/vercel",
+      "followers_url": "https://api.github.com/users/vercel%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/vercel%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/vercel%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/vercel%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/vercel%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/vercel%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/vercel%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/vercel%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/vercel%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "sha": "ecff8830d96e3be132cf8b6850b8ebc0066108c9",
+    "ref": "ecff8830d96e3be132cf8b6850b8ebc0066108c9",
+    "payload": {
+
+    },
+    "transient_environment": false,
+    "production_environment": false,
+    "performed_via_github_app": null
+  },
+  {
+    "url": "https://api.github.com/repos/habibullah-1101/habibai/deployments/3905777961",
+    "id": 3905777961,
+    "node_id": "DE_kwDORWg1CM7ozXEp",
+    "task": "deploy",
+    "original_environment": "Preview",
+    "environment": "Preview",
+    "description": null,
+    "created_at": "2026-02-23T19:28:04Z",
+    "updated_at": "2026-02-23T19:28:04Z",
+    "statuses_url": "https://api.github.com/repos/habibullah-1101/habibai/deployments/3905777961/statuses",
+    "repository_url": "https://api.github.com/repos/habibullah-1101/habibai",
+    "creator": {
+      "login": "vercel[bot]",
+      "id": 35613825,
+      "node_id": "MDM6Qm90MzU2MTM4MjU=",
+      "avatar_url": "https://avatars.githubusercontent.com/in/8329?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/vercel%5Bbot%5D",
+      "html_url": "https://github.com/apps/vercel",
+      "followers_url": "https://api.github.com/users/vercel%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/vercel%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/vercel%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/vercel%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/vercel%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/vercel%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/vercel%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/vercel%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/vercel%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "sha": "ae1a3a386fc86c1ec174e3d62115fdbb5fa2b262",
+    "ref": "ae1a3a386fc86c1ec174e3d62115fdbb5fa2b262",
+    "payload": {
+
+    },
+    "transient_environment": false,
+    "production_environment": false,
+    "performed_via_github_app": null
+  }
+]
+
+## 4) Deployment statuses for latest production deployment
+[
+  {
+    "url": "https://api.github.com/repos/habibullah-1101/habibai/deployments/3905984276/statuses/11130562129",
+    "id": 11130562129,
+    "node_id": "DES_kwDORWg1CM8AAAACl27mUQ",
+    "state": "success",
+    "creator": {
+      "login": "vercel[bot]",
+      "id": 35613825,
+      "node_id": "MDM6Qm90MzU2MTM4MjU=",
+      "avatar_url": "https://avatars.githubusercontent.com/in/8329?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/vercel%5Bbot%5D",
+      "html_url": "https://github.com/apps/vercel",
+      "followers_url": "https://api.github.com/users/vercel%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/vercel%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/vercel%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/vercel%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/vercel%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/vercel%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/vercel%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/vercel%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/vercel%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "description": "Deployment has completed",
+    "environment": "Production",
+    "target_url": "https://habibai-1qwzwdzdw-habibullah-1101s-projects.vercel.app",
+    "created_at": "2026-02-23T19:56:39Z",
+    "updated_at": "2026-02-23T19:56:39Z",
+    "deployment_url": "https://api.github.com/repos/habibullah-1101/habibai/deployments/3905984276",
+    "repository_url": "https://api.github.com/repos/habibullah-1101/habibai",
+    "environment_url": "https://habibai-1qwzwdzdw-habibullah-1101s-projects.vercel.app",
+    "log_url": "https://habibai-1qwzwdzdw-habibullah-1101s-projects.vercel.app",
+    "performed_via_github_app": null
+  }
+]
+
+## 5) Attempt to access Vercel deployment inspector URL
+HTTP/1.1 403 Forbidden
+content-length: 16
+content-type: text/plain
+date: Mon, 23 Feb 2026 20:02:34 GMT
+server: envoy
+connection: close
+
+
+## 6) Attempt to access production deployment URL
+HTTP/1.1 403 Forbidden
+content-length: 16
+content-type: text/plain
+date: Mon, 23 Feb 2026 20:02:34 GMT
+server: envoy
+connection: close
+
+
+## 7) Attempt to use Vercel CLI
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+Vercel CLI 50.22.1
+Error: No existing credentials found. Please run `vercel login` or pass "--token"
+Learn More: https://err.sh/vercel/no-credentials-found
+Error: Failed to get package info: AggregateError [ENETUNREACH]: 
+    at internalConnectMultiple (node:net:1134:18)
+    at internalConnectMultiple (node:net:1210:5)
+    at internalConnectMultiple (node:net:1210:5)
+    at internalConnectMultiple (node:net:1210:5)
+    at internalConnectMultiple (node:net:1210:5)
+    at internalConnectMultiple (node:net:1210:5)
+    at internalConnectMultiple (node:net:1210:5)
+    at internalConnectMultiple (node:net:1210:5)
+    at internalConnectMultiple (node:net:1210:5)
+    at internalConnectMultiple (node:net:1210:5) {
+  code: 'ENETUNREACH',
+  [errors]: [
+    Error: connect ENETUNREACH 2606:4700::6810:722:443 - Local (:::0)
+        at internalConnectMultiple (node:net:1206:16)
+        at defaultTriggerAsyncIdScope (node:internal/async_hooks:472:18)
+        at GetAddrInfoReqWrap.emitLookup [as callback] (node:net:1552:7)
+        at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:134:8) {
+      errno: -101,
+      code: 'ENETUNREACH',
+      syscall: 'connect',
+      address: '2606:4700::6810:722',
+      port: 443
+    },
+    Error: connect ENETUNREACH 104.16.9.34:443 - Local (0.0.0.0:0)
+        at internalConnectMultiple (node:net:1206:16)
+        at internalConnectMultiple (node:net:1210:5)
+        at defaultTriggerAsyncIdScope (node:internal/async_hooks:472:18)
+        at GetAddrInfoReqWrap.emitLookup [as callback] (node:net:1552:7)
+        at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:134:8) {
+      errno: -101,
+      code: 'ENETUNREACH',
+      syscall: 'connect',
+      address: '104.16.9.34',
+      port: 443
+    },
+    Error: connect ENETUNREACH 2606:4700::6810:a22:443 - Local (:::0)
+        at internalConnectMultiple (node:net:1206:16)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at defaultTriggerAsyncIdScope (node:internal/async_hooks:472:18)
+        at GetAddrInfoReqWrap.emitLookup [as callback] (node:net:1552:7)
+        at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:134:8) {
+      errno: -101,
+      code: 'ENETUNREACH',
+      syscall: 'connect',
+      address: '2606:4700::6810:a22',
+      port: 443
+    },
+    Error: connect ENETUNREACH 104.16.7.34:443 - Local (0.0.0.0:0)
+        at internalConnectMultiple (node:net:1206:16)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at defaultTriggerAsyncIdScope (node:internal/async_hooks:472:18)
+        at GetAddrInfoReqWrap.emitLookup [as callback] (node:net:1552:7)
+        at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:134:8) {
+      errno: -101,
+      code: 'ENETUNREACH',
+      syscall: 'connect',
+      address: '104.16.7.34',
+      port: 443
+    },
+    Error: connect ENETUNREACH 2606:4700::6810:122:443 - Local (:::0)
+        at internalConnectMultiple (node:net:1206:16)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at defaultTriggerAsyncIdScope (node:internal/async_hooks:472:18)
+        at GetAddrInfoReqWrap.emitLookup [as callback] (node:net:1552:7)
+        at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:134:8) {
+      errno: -101,
+      code: 'ENETUNREACH',
+      syscall: 'connect',
+      address: '2606:4700::6810:122',
+      port: 443
+    },
+    Error: connect ENETUNREACH 104.16.3.34:443 - Local (0.0.0.0:0)
+        at internalConnectMultiple (node:net:1206:16)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at defaultTriggerAsyncIdScope (node:internal/async_hooks:472:18)
+        at GetAddrInfoReqWrap.emitLookup [as callback] (node:net:1552:7)
+        at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:134:8) {
+      errno: -101,
+      code: 'ENETUNREACH',
+      syscall: 'connect',
+      address: '104.16.3.34',
+      port: 443
+    },
+    Error: connect ENETUNREACH 2606:4700::6810:22:443 - Local (:::0)
+        at internalConnectMultiple (node:net:1206:16)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at defaultTriggerAsyncIdScope (node:internal/async_hooks:472:18)
+        at GetAddrInfoReqWrap.emitLookup [as callback] (node:net:1552:7)
+        at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:134:8) {
+      errno: -101,
+      code: 'ENETUNREACH',
+      syscall: 'connect',
+      address: '2606:4700::6810:22',
+      port: 443
+    },
+    Error: connect ENETUNREACH 104.16.0.34:443 - Local (0.0.0.0:0)
+        at internalConnectMultiple (node:net:1206:16)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at defaultTriggerAsyncIdScope (node:internal/async_hooks:472:18)
+        at GetAddrInfoReqWrap.emitLookup [as callback] (node:net:1552:7) {
+      errno: -101,
+      code: 'ENETUNREACH',
+      syscall: 'connect',
+      address: '104.16.0.34',
+      port: 443
+    },
+    Error: connect ENETUNREACH 2606:4700::6810:522:443 - Local (:::0)
+        at internalConnectMultiple (node:net:1206:16)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at defaultTriggerAsyncIdScope (node:internal/async_hooks:472:18) {
+      errno: -101,
+      code: 'ENETUNREACH',
+      syscall: 'connect',
+      address: '2606:4700::6810:522',
+      port: 443
+    },
+    Error: connect ENETUNREACH 104.16.6.34:443 - Local (0.0.0.0:0)
+        at internalConnectMultiple (node:net:1206:16)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5) {
+      errno: -101,
+      code: 'ENETUNREACH',
+      syscall: 'connect',
+      address: '104.16.6.34',
+      port: 443
+    },
+    Error: connect ENETUNREACH 2606:4700::6810:422:443 - Local (:::0)
+        at internalConnectMultiple (node:net:1206:16)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5) {
+      errno: -101,
+      code: 'ENETUNREACH',
+      syscall: 'connect',
+      address: '2606:4700::6810:422',
+      port: 443
+    },
+    Error: connect ENETUNREACH 104.16.1.34:443 - Local (0.0.0.0:0)
+        at internalConnectMultiple (node:net:1206:16)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5) {
+      errno: -101,
+      code: 'ENETUNREACH',
+      syscall: 'connect',
+      address: '104.16.1.34',
+      port: 443
+    },
+    Error: connect ENETUNREACH 2606:4700::6810:b22:443 - Local (:::0)
+        at internalConnectMultiple (node:net:1206:16)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5) {
+      errno: -101,
+      code: 'ENETUNREACH',
+      syscall: 'connect',
+      address: '2606:4700::6810:b22',
+      port: 443
+    },
+    Error: connect ENETUNREACH 104.16.8.34:443 - Local (0.0.0.0:0)
+        at internalConnectMultiple (node:net:1206:16)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5) {
+      errno: -101,
+      code: 'ENETUNREACH',
+      syscall: 'connect',
+      address: '104.16.8.34',
+      port: 443
+    },
+    Error: connect ENETUNREACH 2606:4700::6810:622:443 - Local (:::0)
+        at internalConnectMultiple (node:net:1206:16)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5) {
+      errno: -101,
+      code: 'ENETUNREACH',
+      syscall: 'connect',
+      address: '2606:4700::6810:622',
+      port: 443
+    },
+    Error: connect ENETUNREACH 104.16.2.34:443 - Local (0.0.0.0:0)
+        at internalConnectMultiple (node:net:1206:16)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5)
+        at internalConnectMultiple (node:net:1210:5) {
+      errno: -101,
+      code: 'ENETUNREACH',
+      syscall: 'connect',
+      address: '104.16.2.34',
+      port: 443
+    }
+  ]
+}
+
+## 8) Local verification checks (non-Vercel fallback)
+### pnpm lint
+
+> habibai@0.1.0 lint /workspace/habibai
+> next lint
+
+✔ No ESLint warnings or errors
+
+### pnpm type-check
+
+> habibai@0.1.0 type-check /workspace/habibai
+> tsc --noEmit
+
+
+### pnpm build
+
+> habibai@0.1.0 build /workspace/habibai
+> next build
+
+   ▲ Next.js 15.3.8
+
+   Creating an optimized production build ...
+Failed to fetch font file from `https://fonts.gstatic.com/s/geistmono/v4/or3nQ6H-1_WfwkMZI_qYFrMdmhHkjkotbA.woff2`.
+
+Retrying 1/3...
+Failed to fetch font file from `https://fonts.gstatic.com/s/geistmono/v4/or3nQ6H-1_WfwkMZI_qYFrkdmhHkjkotbA.woff2`.
+
+Retrying 1/3...
+Failed to fetch font file from `https://fonts.gstatic.com/s/geistmono/v4/or3nQ6H-1_WfwkMZI_qYFrcdmhHkjko.woff2`.
+
+Retrying 1/3...
+Failed to fetch font file from `https://fonts.gstatic.com/s/geist/v4/gyByhwUxId8gMEwcGFWNOITd.woff2`.
+
+Retrying 1/3...
+Failed to fetch font file from `https://fonts.gstatic.com/s/geist/v4/gyByhwUxId8gMEwYGFWNOITddY4.woff2`.
+
+Retrying 1/3...
+Failed to fetch font file from `https://fonts.gstatic.com/s/geist/v4/gyByhwUxId8gMEwSGFWNOITddY4.woff2`.
+
+Retrying 1/3...
+Failed to fetch font file from `https://fonts.gstatic.com/s/geistmono/v4/or3nQ6H-1_WfwkMZI_qYFrMdmhHkjkotbA.woff2`.
+
+Retrying 2/3...
+Failed to fetch font file from `https://fonts.gstatic.com/s/geist/v4/gyByhwUxId8gMEwcGFWNOITd.woff2`.
+
+Retrying 2/3...
+Failed to fetch font file from `https://fonts.gstatic.com/s/geist/v4/gyByhwUxId8gMEwSGFWNOITddY4.woff2`.
+
+Retrying 2/3...
+Failed to fetch font file from `https://fonts.gstatic.com/s/geist/v4/gyByhwUxId8gMEwYGFWNOITddY4.woff2`.
+
+Retrying 2/3...
+Failed to fetch font file from `https://fonts.gstatic.com/s/geistmono/v4/or3nQ6H-1_WfwkMZI_qYFrkdmhHkjkotbA.woff2`.
+
+Retrying 2/3...
+Failed to fetch font file from `https://fonts.gstatic.com/s/geistmono/v4/or3nQ6H-1_WfwkMZI_qYFrcdmhHkjko.woff2`.
+
+Retrying 2/3...
+Failed to fetch font file from `https://fonts.gstatic.com/s/geistmono/v4/or3nQ6H-1_WfwkMZI_qYFrMdmhHkjkotbA.woff2`.
+
+Retrying 3/3...
+Failed to fetch font file from `https://fonts.gstatic.com/s/geist/v4/gyByhwUxId8gMEwcGFWNOITd.woff2`.
+
+Retrying 3/3...
+Failed to fetch font file from `https://fonts.gstatic.com/s/geist/v4/gyByhwUxId8gMEwSGFWNOITddY4.woff2`.
+
+Retrying 3/3...
+Failed to fetch font file from `https://fonts.gstatic.com/s/geistmono/v4/or3nQ6H-1_WfwkMZI_qYFrcdmhHkjko.woff2`.
+
+Retrying 3/3...
+Failed to fetch font file from `https://fonts.gstatic.com/s/geistmono/v4/or3nQ6H-1_WfwkMZI_qYFrkdmhHkjkotbA.woff2`.
+
+Retrying 3/3...
+Failed to fetch font file from `https://fonts.gstatic.com/s/geist/v4/gyByhwUxId8gMEwYGFWNOITddY4.woff2`.
+
+Retrying 3/3...
+[Error: Failed to fetch font file from `https://fonts.gstatic.com/s/geistmono/v4/or3nQ6H-1_WfwkMZI_qYFrcdmhHkjko.woff2`.]
+[Error: Failed to fetch font file from `https://fonts.gstatic.com/s/geistmono/v4/or3nQ6H-1_WfwkMZI_qYFrMdmhHkjkotbA.woff2`.]
+[Error: Failed to fetch font file from `https://fonts.gstatic.com/s/geist/v4/gyByhwUxId8gMEwSGFWNOITddY4.woff2`.]
+[Error: Failed to fetch font file from `https://fonts.gstatic.com/s/geist/v4/gyByhwUxId8gMEwcGFWNOITd.woff2`.]
+[Error: Failed to fetch font file from `https://fonts.gstatic.com/s/geistmono/v4/or3nQ6H-1_WfwkMZI_qYFrkdmhHkjkotbA.woff2`.]
+[Error: Failed to fetch font file from `https://fonts.gstatic.com/s/geist/v4/gyByhwUxId8gMEwYGFWNOITddY4.woff2`.]
+Failed to compile.
+
+app/layout.tsx
+`next/font` error:
+Failed to fetch `Geist` from Google Fonts.
+
+app/layout.tsx
+`next/font` error:
+Failed to fetch `Geist Mono` from Google Fonts.
+
+
+> Build failed because of webpack errors
+ ELIFECYCLE  Command failed with exit code 1.
