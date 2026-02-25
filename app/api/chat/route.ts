@@ -31,6 +31,9 @@ export async function POST(req: Request) {
     );
   }
 
+  console.log("AI_MODEL =", process.env.AI_MODEL, "modelId =", modelId);
+
+  
  const result = streamText({
   model: gateway(modelId),
   system:
