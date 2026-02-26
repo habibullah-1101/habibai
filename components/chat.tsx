@@ -79,12 +79,13 @@ function TopbarButtons({ onNewChat }: { onNewChat: () => void }) {
             key={button.id}
             onClick={getButtonAction(button.id)}
             variant="outline"
-            size="icon"
+            size="sm"
             title={button.title}
             aria-label={button.label}
-            className="h-10 w-10 border-border/80 bg-muted/40 shadow-border-small hover:bg-muted/70 hover:shadow-border-medium"
+            className="h-10 w-10 gap-2 border-border/80 bg-muted/40 px-0 shadow-border-small hover:bg-muted/70 hover:shadow-border-medium md:w-auto md:px-3"
           >
             <Icon className="h-5 w-5" />
+            <span className="hidden md:inline">{button.label}</span>
           </Button>
         );
       })}
