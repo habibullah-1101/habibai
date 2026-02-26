@@ -17,6 +17,7 @@ import { PresetSelector } from "@/components/preset-selector";
 import { TemplatePanel } from "@/components/template-panel";
 import { SavedPrompts } from "@/components/saved-prompts";
 import { Sidebar } from "@/components/sidebar";
+import { TopPillBar } from "@/components/top-pill-bar";
 
 function ModelSelectorHandler({
   modelId,
@@ -35,6 +36,32 @@ function ModelSelectorHandler({
   };
 
   return <ModelSelector modelId={modelId} onModelChange={handleSelectChange} />;
+}
+
+function LogoMark() {
+  return (
+    <Link href="/" className="font-semibold tracking-tight text-sm md:text-base">
+      HABIB AI
+    </Link>
+  );
+}
+
+function StarButton({ onNewChat }: { onNewChat: () => void }) {
+  return (
+    <>
+      <Button
+        onClick={onNewChat}
+        variant="outline"
+        size="icon"
+        title="Start new chat"
+        aria-label="Start new chat"
+        className="h-10 w-10 border-border/80 bg-muted/40 shadow-border-small hover:bg-muted/70 hover:shadow-border-medium"
+      >
+        <PlusIcon className="h-5 w-5" />
+      </Button>
+      <ThemeToggle />
+    </>
+  );
 }
 
 export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
@@ -87,33 +114,18 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
         className="hidden"
         onChange={handleFileChange}
       />
-      <header className="fixed top-0 left-16 right-0 z-20 border-b bg-background/90 backdrop-blur-sm animate-fade-in">
-        <div className="mx-auto flex h-14 w-full max-w-4xl items-center justify-between px-4 md:px-8">
-          <div className="flex items-center gap-4">
-            <Link href="/" className="font-semibold tracking-tight text-sm md:text-base">
-              HABIB AI
-            </Link>
-            <Link href="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-              About
-            </Link>
-          </div>
-          <div className="flex items-center gap-2">
-            <ModelSelectorHandler
-              modelId={currentModelId}
-              onModelIdChange={handleModelIdChange}
-            />
-            <Button
-              onClick={handleNewChat}
-              variant="outline"
-              size="icon"
-              title="Start new chat"
-              aria-label="Start new chat"
-              className="h-10 w-10 border-border/80 bg-muted/40 shadow-border-small hover:bg-muted/70 hover:shadow-border-medium"
-            >
-              <PlusIcon className="h-5 w-5" />
-            </Button>
-            <ThemeToggle />
-          </div>
+      <header className="fixed top-0 left-16 right-0 z-20 bg-transparent px-4 py-2 animate-fade-in md:px-8">
+        <div className="mx-auto w-full max-w-4xl">
+          <TopPillBar
+            left={
+              <ModelSelectorHandler
+                modelId={currentModelId}
+                onModelIdChange={handleModelIdChange}
+              />
+            }
+            center={<LogoMark />}
+            right={<StarButton onNewChat={handleNewChat} />}
+          />
         </div>
       </header>
       {!hasMessages && (
