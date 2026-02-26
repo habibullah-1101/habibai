@@ -5,9 +5,13 @@ import { useRouter } from "next/navigation";
 import { ModelSelector } from "@/components/model-selector";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { Send, PlusIcon, Paperclip } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { DEFAULT_MODEL } from "@/lib/constants";
+import {
+  DEFAULT_COMPOSER_LEFT_ACTIONS,
+  DEFAULT_COMPOSER_RIGHT_ACTIONS,
+  DEFAULT_TOPBAR_BUTTONS,
+} from "@/lib/ui-config";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -47,20 +51,34 @@ function LogoMark() {
   );
 }
 
-function StarButton({ onNewChat }: { onNewChat: () => void }) {
+function TopbarButtons({ onNewChat }: { onNewChat: () => void }) {
   return (
     <>
-      <Button
-        onClick={onNewChat}
-        variant="outline"
-        size="icon"
-        title="Start new chat"
-        aria-label="Start new chat"
-        className="h-10 w-10 border-border/80 bg-muted/40 shadow-border-small hover:bg-muted/70 hover:shadow-border-medium"
-      >
-        <PlusIcon className="h-5 w-5" />
-      </Button>
-      <ThemeToggle />
+      {DEFAULT_TOPBAR_BUTTONS.map((button) => {
+        if (button.type === "theme-toggle") {
+          return <ThemeToggle key={button.id} />;
+        }
+
+        const Icon = button.icon;
+
+        if (!Icon) {
+          return null;
+        }
+
+        return (
+          <Button
+            key={button.id}
+            onClick={onNewChat}
+            variant="outline"
+            size="icon"
+            title={button.title}
+            aria-label={button.label}
+            className="h-10 w-10 border-border/80 bg-muted/40 shadow-border-small hover:bg-muted/70 hover:shadow-border-medium"
+          >
+            <Icon className="h-5 w-5" />
+          </Button>
+        );
+      })}
     </>
   );
 }
@@ -116,13 +134,15 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
     setInput("");
   };
 
-  const leftActions = [
-    { id: "attach", icon: Paperclip, label: "Attach", onClick: handleUploadClick },
-  ];
+  const leftActions = DEFAULT_COMPOSER_LEFT_ACTIONS.map((action) => ({
+    ...action,
+    onClick: action.id === "attach" ? handleUploadClick : () => undefined,
+  }));
 
-  const rightActions = [
-    { id: "send", icon: Send, label: "Send", onClick: onSend },
-  ];
+  const rightActions = DEFAULT_COMPOSER_RIGHT_ACTIONS.map((action) => ({
+    ...action,
+    onClick: action.id === "send" ? onSend : () => undefined,
+  }));
 
   return (
     <div className="flex h-screen flex-col overflow-hidden pl-16 pt-14">
@@ -143,7 +163,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
               />
             }
             center={<LogoMark />}
-            right={<StarButton onNewChat={handleNewChat} />}
+            right={<TopbarButtons onNewChat={handleNewChat} />}
           />
         </div>
       </header>

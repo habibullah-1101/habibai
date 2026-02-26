@@ -2,20 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Database, LayoutGrid, User, type LucideIcon } from "lucide-react";
+import { SIDEBAR_ITEMS } from "@/lib/ui-config";
 import { useState } from "react";
-
-type SidebarItem = {
-  id: string;
-  icon: LucideIcon;
-  label: string;
-};
-
-const SIDEBAR_ITEMS: SidebarItem[] = [
-  { id: "home", icon: LayoutGrid, label: "Home" },
-  { id: "templates", icon: Database, label: "Templates" },
-  { id: "profile", icon: User, label: "Profile" },
-];
 
 export function Sidebar() {
   const [active, setActive] = useState<string>("home");
