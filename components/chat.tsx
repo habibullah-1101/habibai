@@ -52,6 +52,15 @@ function LogoMark() {
 }
 
 function TopbarButtons({ onNewChat }: { onNewChat: () => void }) {
+  const getButtonAction = (buttonId: string) => {
+    switch (buttonId) {
+      case "new-chat":
+        return onNewChat;
+      default:
+        return () => undefined;
+    }
+  };
+
   return (
     <>
       {DEFAULT_TOPBAR_BUTTONS.map((button) => {
@@ -68,7 +77,7 @@ function TopbarButtons({ onNewChat }: { onNewChat: () => void }) {
         return (
           <Button
             key={button.id}
-            onClick={onNewChat}
+            onClick={getButtonAction(button.id)}
             variant="outline"
             size="icon"
             title={button.title}
