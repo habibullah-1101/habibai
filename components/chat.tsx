@@ -16,6 +16,7 @@ import { Streamdown } from "streamdown";
 import { PresetSelector } from "@/components/preset-selector";
 import { TemplatePanel } from "@/components/template-panel";
 import { SavedPrompts } from "@/components/saved-prompts";
+import { Sidebar } from "@/components/sidebar";
 
 function ModelSelectorHandler({
   modelId,
@@ -78,14 +79,15 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
   };
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden pt-14">
+    <div className="flex h-screen flex-col overflow-hidden pl-16 pt-14">
+      <Sidebar />
       <input
         ref={uploadInputRef}
         type="file"
         className="hidden"
         onChange={handleFileChange}
       />
-      <header className="fixed top-0 left-0 right-0 z-20 border-b bg-background/90 backdrop-blur-sm animate-fade-in">
+      <header className="fixed top-0 left-16 right-0 z-20 border-b bg-background/90 backdrop-blur-sm animate-fade-in">
         <div className="mx-auto flex h-14 w-full max-w-4xl items-center justify-between px-4 md:px-8">
           <div className="flex items-center gap-4">
             <Link href="/" className="font-semibold tracking-tight text-sm md:text-base">
