@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { ModelSelector } from "@/components/model-selector";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { SendIcon, PlusIcon, Paperclip } from "lucide-react";
+import { Send, PlusIcon, Paperclip } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { DEFAULT_MODEL } from "@/lib/constants";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -18,6 +18,7 @@ import { TemplatePanel } from "@/components/template-panel";
 import { SavedPrompts } from "@/components/saved-prompts";
 import { Sidebar } from "@/components/sidebar";
 import { TopPillBar } from "@/components/top-pill-bar";
+import { ComposerPill } from "@/components/composer-pill";
 
 function ModelSelectorHandler({
   modelId,
@@ -70,8 +71,6 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
   const [currentPresetId, setCurrentPresetId] = useState("caption_writer");
   const [selectedFileName, setSelectedFileName] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const emptyComposerRef = useRef<HTMLTextAreaElement>(null);
-  const activeComposerRef = useRef<HTMLTextAreaElement>(null);
   const uploadInputRef = useRef<HTMLInputElement>(null);
 
   const handleModelIdChange = (newModelId: string) => {
@@ -104,6 +103,26 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
     const file = event.target.files?.[0];
     setSelectedFileName(file?.name ?? "");
   };
+
+  const onSend = () => {
+    if (!input.trim()) {
+      return;
+    }
+
+    sendMessage(
+      { text: input },
+      { body: { modelId: currentModelId, presetId: currentPresetId } },
+    );
+    setInput("");
+  };
+
+  const leftActions = [
+    { id: "attach", icon: Paperclip, label: "Attach", onClick: handleUploadClick },
+  ];
+
+  const rightActions = [
+    { id: "send", icon: Send, label: "Send", onClick: onSend },
+  ];
 
   return (
     <div className="flex h-screen flex-col overflow-hidden pl-16 pt-14">
@@ -140,69 +159,28 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  sendMessage({ text: input }, { body: { modelId: currentModelId, presetId: currentPresetId } });
-                  setInput("");
+                  onSend();
                 }}
               >
-                <div className="rounded-2xl glass-effect shadow-border-medium transition-all duration-200 ease-out">
-                  <textarea
-                    ref={emptyComposerRef}
-                    name="prompt"
-                    placeholder="Describe what you want the AI to do..."
-                    onChange={(e) => setInput(e.target.value)}
+                <div>
+                  <ComposerPill
                     value={input}
-                    autoFocus
-                    className="min-h-[120px] md:min-h-[160px] w-full resize-none border-0 bg-transparent p-3 md:p-4 text-base placeholder:text-muted-foreground/60 outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
-                    onKeyDown={(e) => {
-                      if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
-                        e.preventDefault();
-                        sendMessage(
-                          { text: input },
-                          { body: { modelId: currentModelId, presetId: currentPresetId } },
-                        );
-                        setInput("");
-                      }
-                    }}
+                    onChange={setInput}
+                    onSend={onSend}
+                    leftActions={leftActions}
+                    rightActions={rightActions}
                   />
-                  <div className="flex items-center justify-between gap-3 border-t p-3 md:p-4">
-                    <div className="flex items-center gap-2 md:gap-3">
-                      <PresetSelector
-                        presetId={currentPresetId}
-                        onPresetChange={setCurrentPresetId}
-                      />
-                      <TemplatePanel
-                        onSelectTemplate={(prompt) => {
-                          setInput(prompt);
-                          emptyComposerRef.current?.focus();
-                        }}
-                      />
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        title="Upload"
-                        aria-label="Upload"
-                        className="gap-1.5"
-                        onClick={handleUploadClick}
-                      >
-                        <Paperclip className="h-4 w-4" />
-                        <span className="hidden md:inline">Upload</span>
-                      </Button>
-                      {selectedFileName && (
-                        <span className="hidden md:inline text-xs text-muted-foreground truncate max-w-[180px]">
-                          {selectedFileName}
-                        </span>
-                      )}
-                    </div>
-                    <Button
-                      type="submit"
-                      size="icon"
-                      variant="ghost"
-                      className="h-9 w-9 rounded-full hover:bg-muted/50"
-                      disabled={!input.trim()}
-                    >
-                      <SendIcon className="h-4 w-4" />
-                    </Button>
+                  <div className="flex items-center gap-2 md:gap-3 px-3 md:px-4 py-3">
+                    <PresetSelector
+                      presetId={currentPresetId}
+                      onPresetChange={setCurrentPresetId}
+                    />
+                    <TemplatePanel onSelectTemplate={(prompt) => setInput(prompt)} />
+                    {selectedFileName && (
+                      <span className="hidden md:inline text-xs text-muted-foreground truncate max-w-[180px]">
+                        {selectedFileName}
+                      </span>
+                    )}
                   </div>
                 </div>
               </form>
@@ -283,69 +261,29 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              sendMessage({ text: input }, { body: { modelId: currentModelId, presetId: currentPresetId } });
-              setInput("");
+              onSend();
             }}
             className="px-4 md:px-8 pb-6 md:pb-8"
           >
-            <div className="rounded-2xl glass-effect shadow-border-medium transition-all duration-200 ease-out">
-              <textarea
-                ref={activeComposerRef}
-                name="prompt"
-                placeholder="Describe what you want the AI to do..."
-                onChange={(e) => setInput(e.target.value)}
+            <div>
+              <ComposerPill
                 value={input}
-                className="min-h-[120px] md:min-h-[160px] w-full resize-none border-0 bg-transparent p-3 md:p-4 text-base placeholder:text-muted-foreground/60 outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
-                onKeyDown={(e) => {
-                  if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
-                    e.preventDefault();
-                    sendMessage(
-                      { text: input },
-                      { body: { modelId: currentModelId, presetId: currentPresetId } },
-                    );
-                    setInput("");
-                  }
-                }}
+                onChange={setInput}
+                onSend={onSend}
+                leftActions={leftActions}
+                rightActions={rightActions}
               />
-              <div className="flex items-center justify-between gap-3 border-t p-3 md:p-4">
-                <div className="flex items-center gap-3">
-                  <PresetSelector
-                    presetId={currentPresetId}
-                    onPresetChange={setCurrentPresetId}
-                  />
-                  <TemplatePanel
-                    onSelectTemplate={(prompt) => {
-                      setInput(prompt);
-                      activeComposerRef.current?.focus();
-                    }}
-                  />
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    title="Upload"
-                    aria-label="Upload"
-                    className="gap-1.5"
-                    onClick={handleUploadClick}
-                  >
-                    <Paperclip className="h-4 w-4" />
-                    <span className="hidden md:inline">Upload</span>
-                  </Button>
-                  {selectedFileName && (
-                    <span className="hidden md:inline text-xs text-muted-foreground truncate max-w-[180px]">
-                      {selectedFileName}
-                    </span>
-                  )}
-                </div>
-                <Button
-                  type="submit"
-                  size="icon"
-                  variant="ghost"
-                  className="h-9 w-9 rounded-full hover:bg-accent hover:text-accent-foreground hover:scale-110 transition-all duration-150 ease disabled:opacity-50 disabled:hover:scale-100"
-                  disabled={!input.trim()}
-                >
-                  <SendIcon className="h-4 w-4" />
-                </Button>
+              <div className="flex items-center gap-2 md:gap-3 px-3 md:px-4 py-3">
+                <PresetSelector
+                  presetId={currentPresetId}
+                  onPresetChange={setCurrentPresetId}
+                />
+                <TemplatePanel onSelectTemplate={(prompt) => setInput(prompt)} />
+                {selectedFileName && (
+                  <span className="hidden md:inline text-xs text-muted-foreground truncate max-w-[180px]">
+                    {selectedFileName}
+                  </span>
+                )}
               </div>
             </div>
           </form>
