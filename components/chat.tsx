@@ -13,7 +13,7 @@ import {
   DEFAULT_TOPBAR_BUTTONS,
 } from "@/lib/ui-config";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, SlidersHorizontal } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Streamdown } from "streamdown";
@@ -55,10 +55,14 @@ function TopbarButtons({
   onNewChat,
   favoritesOn,
   onToggleFavorites,
+  toolsEnabled,
+  onToggleTools,
 }: {
   onNewChat: () => void;
   favoritesOn: boolean;
   onToggleFavorites: () => void;
+  toolsEnabled: boolean;
+  onToggleTools: () => void;
 }) {
   const getButtonAction = (buttonId: string) => {
     switch (buttonId) {
@@ -73,6 +77,22 @@ function TopbarButtons({
 
   return (
     <>
+      <Button
+        id="tools"
+        onClick={onToggleTools}
+        variant="outline"
+        size="sm"
+        title="Tools"
+        aria-label="Tools"
+        aria-pressed={toolsEnabled}
+        className={cn(
+          "h-10 w-10 gap-2 border-border/80 bg-muted/40 px-0 shadow-border-small hover:bg-muted/70 hover:shadow-border-medium md:w-auto md:px-3",
+          toolsEnabled && "bg-muted/90"
+        )}
+      >
+        <SlidersHorizontal className="h-5 w-5" />
+        <span className="hidden md:inline">Tools</span>
+      </Button>
       {DEFAULT_TOPBAR_BUTTONS.map((button) => {
         if (button.type === "theme-toggle") {
           return <ThemeToggle key={button.id} />;
@@ -119,8 +139,9 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
   const [currentPresetId, setCurrentPresetId] = useState("caption_writer");
   const [selectedFileName, setSelectedFileName] = useState("");
   const [favoritesOn, setFavoritesOn] = useState(false);
-  const [showPresetsPanel] = useState(true);
-  const [showTemplatesPanel] = useState(true);
+  const [toolsEnabled, setToolsEnabled] = useState(false);
+  const [showPresetsPanel, setShowPresetsPanel] = useState(true);
+  const [showTemplatesPanel, setShowTemplatesPanel] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const uploadInputRef = useRef<HTMLInputElement>(null);
 
@@ -155,6 +176,22 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
     setSelectedFileName(file?.name ?? "");
   };
 
+  const handleToggleTools = () => {
+    setToolsEnabled((prev) => {
+      const next = !prev;
+
+      if (!next) {
+        setShowPresetsPanel(false);
+        setShowTemplatesPanel(false);
+      } else {
+        setShowPresetsPanel(true);
+        setShowTemplatesPanel(true);
+      }
+
+      return next;
+    });
+  };
+
   const onSend = () => {
     if (!input.trim()) {
       return;
@@ -171,6 +208,8 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
     ...action,
     onClick: action.id === "attach" ? handleUploadClick : () => undefined,
   }));
+
+  const visibleLeftActions = toolsEnabled ? leftActions : [];
 
   const rightActions = DEFAULT_COMPOSER_RIGHT_ACTIONS.map((action) => ({
     ...action,
@@ -201,6 +240,8 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                 onNewChat={handleNewChat}
                 favoritesOn={favoritesOn}
                 onToggleFavorites={() => setFavoritesOn((prev) => !prev)}
+                toolsEnabled={toolsEnabled}
+                onToggleTools={handleToggleTools}
               />
             }
           />
@@ -226,33 +267,37 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                     value={input}
                     onChange={setInput}
                     onSend={onSend}
-                    leftActions={leftActions}
+                    leftActions={visibleLeftActions}
                     rightActions={rightActions}
                   />
-                  <div className="flex items-center gap-2 md:gap-3 px-3 md:px-4 py-3">
-                    {showPresetsPanel && (
-                      <PresetSelector
-                        presetId={currentPresetId}
-                        onPresetChange={setCurrentPresetId}
-                      />
-                    )}
-                    {showTemplatesPanel && (
-                      <TemplatePanel onSelectTemplate={(prompt) => setInput(prompt)} />
-                    )}
-                    {selectedFileName && (
-                      <span className="hidden md:inline text-xs text-muted-foreground truncate max-w-[180px]">
-                        {selectedFileName}
-                      </span>
-                    )}
-                  </div>
+                  {toolsEnabled && (
+                    <div className="flex items-center gap-2 md:gap-3 px-3 md:px-4 py-3">
+                      {showPresetsPanel && (
+                        <PresetSelector
+                          presetId={currentPresetId}
+                          onPresetChange={setCurrentPresetId}
+                        />
+                      )}
+                      {showTemplatesPanel && (
+                        <TemplatePanel onSelectTemplate={(prompt) => setInput(prompt)} />
+                      )}
+                      {selectedFileName && (
+                        <span className="hidden md:inline text-xs text-muted-foreground truncate max-w-[180px]">
+                          {selectedFileName}
+                        </span>
+                      )}
+                    </div>
+                  )}
                 </div>
               </form>
-              <div className="mt-4 md:mt-6">
-                <SavedPrompts
-                  currentInput={input}
-                  onPickPrompt={(text) => setInput(text)}
-                />
-              </div>
+              {toolsEnabled && (
+                <div className="mt-4 md:mt-6">
+                  <SavedPrompts
+                    currentInput={input}
+                    onPickPrompt={(text) => setInput(text)}
+                  />
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -315,12 +360,14 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
 
       {hasMessages && (
         <div className="w-full max-w-4xl mx-auto">
-          <div className="px-4 md:px-8 pb-3 md:pb-4">
-            <SavedPrompts
-              currentInput={input}
-              onPickPrompt={(text) => setInput(text)}
-            />
-          </div>
+          {toolsEnabled && (
+            <div className="px-4 md:px-8 pb-3 md:pb-4">
+              <SavedPrompts
+                currentInput={input}
+                onPickPrompt={(text) => setInput(text)}
+              />
+            </div>
+          )}
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -333,25 +380,27 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                 value={input}
                 onChange={setInput}
                 onSend={onSend}
-                leftActions={leftActions}
+                leftActions={visibleLeftActions}
                 rightActions={rightActions}
               />
-              <div className="flex items-center gap-2 md:gap-3 px-3 md:px-4 py-3">
-                {showPresetsPanel && (
-                  <PresetSelector
-                    presetId={currentPresetId}
-                    onPresetChange={setCurrentPresetId}
-                  />
-                )}
-                {showTemplatesPanel && (
-                  <TemplatePanel onSelectTemplate={(prompt) => setInput(prompt)} />
-                )}
-                {selectedFileName && (
-                  <span className="hidden md:inline text-xs text-muted-foreground truncate max-w-[180px]">
-                    {selectedFileName}
-                  </span>
-                )}
-              </div>
+              {toolsEnabled && (
+                <div className="flex items-center gap-2 md:gap-3 px-3 md:px-4 py-3">
+                  {showPresetsPanel && (
+                    <PresetSelector
+                      presetId={currentPresetId}
+                      onPresetChange={setCurrentPresetId}
+                    />
+                  )}
+                  {showTemplatesPanel && (
+                    <TemplatePanel onSelectTemplate={(prompt) => setInput(prompt)} />
+                  )}
+                  {selectedFileName && (
+                    <span className="hidden md:inline text-xs text-muted-foreground truncate max-w-[180px]">
+                      {selectedFileName}
+                    </span>
+                  )}
+                </div>
+              )}
             </div>
           </form>
         </div>
