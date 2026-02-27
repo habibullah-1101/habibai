@@ -55,10 +55,14 @@ function TopbarButtons({
   onNewChat,
   favoritesOn,
   onToggleFavorites,
+  toolsEnabled,
+  onToggleTools,
 }: {
   onNewChat: () => void;
   favoritesOn: boolean;
   onToggleFavorites: () => void;
+  toolsEnabled: boolean;
+  onToggleTools: () => void;
 }) {
   const getButtonAction = (buttonId: string) => {
     switch (buttonId) {
@@ -73,6 +77,22 @@ function TopbarButtons({
 
   return (
     <>
+      <Button
+        id="advanced-mode"
+        onClick={onToggleTools}
+        variant="outline"
+        size="sm"
+        title="Advanced mode"
+        aria-label="Advanced mode"
+        aria-pressed={toolsEnabled}
+        className={cn(
+          "h-10 w-10 gap-2 border-border/80 bg-muted/40 px-0 shadow-border-small hover:bg-muted/70 hover:shadow-border-medium md:w-auto md:px-3",
+          toolsEnabled && "bg-muted/90"
+        )}
+      >
+        <SlidersHorizontal className="h-5 w-5" />
+        <span className="hidden md:inline">Advanced</span>
+      </Button>
       {DEFAULT_TOPBAR_BUTTONS.map((button) => {
         if (button.type === "theme-toggle") {
           return <ThemeToggle key={button.id} />;
@@ -156,14 +176,14 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
     setSelectedFileName(file?.name ?? "");
   };
 
-  const toggleTools = () => {
+  const handleToggleTools = () => {
     setToolsEnabled((prev) => {
-      if (prev) {
-        setShowPresetsPanel(false);
-        setShowTemplatesPanel(false);
-      }
+      const nextValue = !prev;
 
-      return !prev;
+      setShowPresetsPanel(nextValue);
+      setShowTemplatesPanel(nextValue);
+
+      return nextValue;
     });
   };
 
@@ -195,16 +215,19 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
     setInput("");
   };
 
-  const leftActions = [
-    ...DEFAULT_COMPOSER_LEFT_ACTIONS.map((action) => ({
+  const baseLeftActions = DEFAULT_COMPOSER_LEFT_ACTIONS.filter(
+    (action) => action.id === "attach"
+  ).map((action) => ({
       ...action,
       onClick: action.id === "attach" ? handleUploadClick : () => undefined,
-    })),
+    }));
+
+  const toolActions = [
     {
       id: "tools",
       icon: Wrench,
       label: toolsEnabled ? "Tools on" : "Tools off",
-      onClick: toggleTools,
+      onClick: handleToggleTools,
     },
     {
       id: "presets",
@@ -219,6 +242,8 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
       onClick: toggleTemplatesPanel,
     },
   ];
+
+  const leftActions = toolsEnabled ? [...baseLeftActions, ...toolActions] : baseLeftActions;
 
   const rightActions = DEFAULT_COMPOSER_RIGHT_ACTIONS.map((action) => ({
     ...action,
@@ -252,6 +277,8 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                 onNewChat={handleNewChat}
                 favoritesOn={favoritesOn}
                 onToggleFavorites={() => setFavoritesOn((prev) => !prev)}
+                toolsEnabled={toolsEnabled}
+                onToggleTools={handleToggleTools}
               />
             }
           />
