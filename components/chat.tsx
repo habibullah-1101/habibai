@@ -177,6 +177,9 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
     onClick: action.id === "send" ? onSend : () => undefined,
   }));
 
+  const showComposerPanels =
+    showPresetsPanel || showTemplatesPanel || Boolean(selectedFileName);
+
   return (
     <div className="flex h-screen flex-col overflow-hidden pl-16 pt-14">
       <Sidebar />
@@ -229,22 +232,26 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                     leftActions={leftActions}
                     rightActions={rightActions}
                   />
-                  <div className="flex items-center gap-2 md:gap-3 px-3 md:px-4 py-3">
-                    {showPresetsPanel && (
-                      <PresetSelector
-                        presetId={currentPresetId}
-                        onPresetChange={setCurrentPresetId}
-                      />
-                    )}
-                    {showTemplatesPanel && (
-                      <TemplatePanel onSelectTemplate={(prompt) => setInput(prompt)} />
-                    )}
-                    {selectedFileName && (
-                      <span className="hidden md:inline text-xs text-muted-foreground truncate max-w-[180px]">
-                        {selectedFileName}
-                      </span>
-                    )}
-                  </div>
+                  {showComposerPanels && (
+                    <div className="mt-2 rounded-xl border bg-background/80 px-3 py-3 backdrop-blur-sm md:px-4">
+                      <div className="flex items-center gap-2 md:gap-3">
+                        {showPresetsPanel && (
+                          <PresetSelector
+                            presetId={currentPresetId}
+                            onPresetChange={setCurrentPresetId}
+                          />
+                        )}
+                        {showTemplatesPanel && (
+                          <TemplatePanel onSelectTemplate={(prompt) => setInput(prompt)} />
+                        )}
+                        {selectedFileName && (
+                          <span className="hidden max-w-[180px] truncate text-xs text-muted-foreground md:inline">
+                            {selectedFileName}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </form>
               <div className="mt-4 md:mt-6">
