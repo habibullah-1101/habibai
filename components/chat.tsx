@@ -13,7 +13,7 @@ import {
   DEFAULT_TOPBAR_BUTTONS,
 } from "@/lib/ui-config";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, LayoutTemplate, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Streamdown } from "streamdown";
@@ -98,6 +98,8 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
   const [currentModelId, setCurrentModelId] = useState(modelId);
   const [currentPresetId, setCurrentPresetId] = useState("caption_writer");
   const [selectedFileName, setSelectedFileName] = useState("");
+  const [showPresetsPanel, setShowPresetsPanel] = useState(false);
+  const [showTemplatesPanel, setShowTemplatesPanel] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const uploadInputRef = useRef<HTMLInputElement>(null);
 
@@ -144,10 +146,44 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
     setInput("");
   };
 
-  const leftActions = DEFAULT_COMPOSER_LEFT_ACTIONS.map((action) => ({
-    ...action,
-    onClick: action.id === "attach" ? handleUploadClick : () => undefined,
-  }));
+  const togglePresetsPanel = () => {
+    setShowPresetsPanel((prev) => !prev);
+    setShowTemplatesPanel(false);
+  };
+
+  const toggleTemplatesPanel = () => {
+    setShowTemplatesPanel((prev) => !prev);
+    setShowPresetsPanel(false);
+  };
+
+  const handleTemplateSelect = (prompt: string) => {
+    setInput(prompt);
+    requestAnimationFrame(() => {
+      const composerTextarea = document.querySelector<HTMLTextAreaElement>(
+        'textarea[name="prompt"]',
+      );
+      composerTextarea?.focus();
+    });
+  };
+
+  const leftActions = [
+    {
+      id: "presets",
+      label: "Presets",
+      icon: Sparkles,
+      onClick: togglePresetsPanel,
+    },
+    {
+      id: "templates",
+      label: "Templates",
+      icon: LayoutTemplate,
+      onClick: toggleTemplatesPanel,
+    },
+    ...DEFAULT_COMPOSER_LEFT_ACTIONS.map((action) => ({
+      ...action,
+      onClick: action.id === "attach" ? handleUploadClick : () => undefined,
+    })),
+  ];
 
   const rightActions = DEFAULT_COMPOSER_RIGHT_ACTIONS.map((action) => ({
     ...action,
@@ -201,11 +237,15 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                     rightActions={rightActions}
                   />
                   <div className="flex items-center gap-2 md:gap-3 px-3 md:px-4 py-3">
-                    <PresetSelector
-                      presetId={currentPresetId}
-                      onPresetChange={setCurrentPresetId}
-                    />
-                    <TemplatePanel onSelectTemplate={(prompt) => setInput(prompt)} />
+                    {showPresetsPanel && (
+                      <PresetSelector
+                        presetId={currentPresetId}
+                        onPresetChange={setCurrentPresetId}
+                      />
+                    )}
+                    {showTemplatesPanel && (
+                      <TemplatePanel onSelectTemplate={handleTemplateSelect} />
+                    )}
                     {selectedFileName && (
                       <span className="hidden md:inline text-xs text-muted-foreground truncate max-w-[180px]">
                         {selectedFileName}
@@ -304,11 +344,15 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                 rightActions={rightActions}
               />
               <div className="flex items-center gap-2 md:gap-3 px-3 md:px-4 py-3">
-                <PresetSelector
-                  presetId={currentPresetId}
-                  onPresetChange={setCurrentPresetId}
-                />
-                <TemplatePanel onSelectTemplate={(prompt) => setInput(prompt)} />
+                {showPresetsPanel && (
+                  <PresetSelector
+                    presetId={currentPresetId}
+                    onPresetChange={setCurrentPresetId}
+                  />
+                )}
+                {showTemplatesPanel && (
+                  <TemplatePanel onSelectTemplate={handleTemplateSelect} />
+                )}
                 {selectedFileName && (
                   <span className="hidden md:inline text-xs text-muted-foreground truncate max-w-[180px]">
                     {selectedFileName}
