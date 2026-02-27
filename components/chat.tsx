@@ -119,6 +119,8 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
   const [currentPresetId, setCurrentPresetId] = useState("caption_writer");
   const [selectedFileName, setSelectedFileName] = useState("");
   const [favoritesOn, setFavoritesOn] = useState(false);
+  const [showPresetsPanel] = useState(true);
+  const [showTemplatesPanel] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const uploadInputRef = useRef<HTMLInputElement>(null);
 
@@ -228,11 +230,15 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                     rightActions={rightActions}
                   />
                   <div className="flex items-center gap-2 md:gap-3 px-3 md:px-4 py-3">
-                    <PresetSelector
-                      presetId={currentPresetId}
-                      onPresetChange={setCurrentPresetId}
-                    />
-                    <TemplatePanel onSelectTemplate={(prompt) => setInput(prompt)} />
+                    {showPresetsPanel && (
+                      <PresetSelector
+                        presetId={currentPresetId}
+                        onPresetChange={setCurrentPresetId}
+                      />
+                    )}
+                    {showTemplatesPanel && (
+                      <TemplatePanel onSelectTemplate={(prompt) => setInput(prompt)} />
+                    )}
                     {selectedFileName && (
                       <span className="hidden md:inline text-xs text-muted-foreground truncate max-w-[180px]">
                         {selectedFileName}
@@ -331,11 +337,15 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                 rightActions={rightActions}
               />
               <div className="flex items-center gap-2 md:gap-3 px-3 md:px-4 py-3">
-                <PresetSelector
-                  presetId={currentPresetId}
-                  onPresetChange={setCurrentPresetId}
-                />
-                <TemplatePanel onSelectTemplate={(prompt) => setInput(prompt)} />
+                {showPresetsPanel && (
+                  <PresetSelector
+                    presetId={currentPresetId}
+                    onPresetChange={setCurrentPresetId}
+                  />
+                )}
+                {showTemplatesPanel && (
+                  <TemplatePanel onSelectTemplate={(prompt) => setInput(prompt)} />
+                )}
                 {selectedFileName && (
                   <span className="hidden md:inline text-xs text-muted-foreground truncate max-w-[180px]">
                     {selectedFileName}
