@@ -4,6 +4,7 @@ import {
   Paperclip,
   PlusIcon,
   Send,
+  Star,
   User,
   type LucideIcon,
 } from "lucide-react";
@@ -35,6 +36,13 @@ export const DEFAULT_TOPBAR_BUTTONS: TopbarButtonConfig[] = [
     icon: PlusIcon,
     label: "Start new chat",
     title: "Start new chat",
+  },
+  {
+    id: "favorites",
+    type: "button",
+    icon: Star,
+    label: "Favorites",
+    title: "Toggle favorites",
   },
   {
     id: "theme-toggle",
