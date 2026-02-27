@@ -1,4 +1,5 @@
-export const DEFAULT_MODEL = "openai/gpt-5-nano";
+export const DEFAULT_MODEL =
+  process.env.AI_MODEL || "amazon/nova-lite";
 
 export const SUPPORTED_MODELS = [
   "amazon/nova-lite",

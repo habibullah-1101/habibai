@@ -2,6 +2,11 @@
 
 Habib AI is a lightweight chatbot app built with Next.js and the Vercel AI stack. It provides a simple starting point for building AI-powered chat experiences using the AI Gateway.
 
+## Runtime Requirements
+
+- **Node.js: 24.x**
+- **Package manager:** Yarn via Corepack (`yarn`)
+
 ## Tech Stack
 
 - Next.js
@@ -11,23 +16,47 @@ Habib AI is a lightweight chatbot app built with Next.js and the Vercel AI stack
 
 ## Local Setup
 
-1. Install dependencies:
+1. Enable Corepack (once per machine):
    ```bash
-   pnpm i
+   corepack enable
    ```
-2. Copy environment variables and set the gateway URL:
+2. Install dependencies:
+   ```bash
+   yarn install
+   ```
+3. Copy environment variables and set the gateway URL:
    ```bash
    cp .env.example .env.local
    ```
    Then set `AI_GATEWAY_BASE_URL` in `.env.local`.
-3. Start the development server:
+4. Start the development server:
    ```bash
-   pnpm dev
+   yarn dev
    ```
 
-## Deploy
+## Build & Smoke Validation
 
-Deploy to Vercel.
+```bash
+yarn build
+yarn smoke
+```
+
+## Deploy (Vercel)
+
+- Vercel project should use Node.js **24.x**.
+- Build command: `yarn build`
+- Install command: `yarn install`
+- Required environment variable: `AI_GATEWAY_BASE_URL`
+
+## Rollback
+
+If you need to revert this runtime hardening change:
+
+```bash
+git revert <commit-sha>
+```
+
+Or roll back to the pre-upgrade commit/tag noted in the PR description.
 
 ## Credits
 

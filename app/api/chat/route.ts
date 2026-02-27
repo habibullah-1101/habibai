@@ -31,16 +31,29 @@ export async function POST(req: Request) {
     );
   }
 
-  const result = streamText({
-    model: gateway(modelId),
-    system:
-      selectedPreset?.systemPrompt ??
-      "You are a software engineer exploring Generative AI.",
-    messages: convertToModelMessages(messages),
-    onError: (e) => {
-      console.error("Error while streaming.", e);
+  console.log("AI_MODEL =", process.env.AI_MODEL, "modelId =", modelId);
+
+  
+ const result = streamText({
+  model: gateway(modelId),
+  system:
+    selectedPreset?.systemPrompt ??
+    "You are a software engineer exploring Generative AI.",
+  messages: convertToModelMessages(messages),
+
+  providerOptions: {
+    gateway: {
+      // fallback models (به ترتیب)
+      models: ["amazon/nova-lite", "openai/gpt-4o-mini", "google/gemini-3-flash"],
+      // اختیاری: اولویت provider ها
+      // order: ["bedrock", "openai", "google"],
     },
-  });
+  },
+
+  onError: (e) => {
+    console.error("Error while streaming.", e);
+  },
+});
 
   return result.toUIMessageStreamResponse();
 }
