@@ -13,7 +13,7 @@ import {
   DEFAULT_TOPBAR_BUTTONS,
 } from "@/lib/ui-config";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle, SlidersHorizontal, Sparkles, Wrench } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Streamdown } from "streamdown";
@@ -156,11 +156,14 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
     setSelectedFileName(file?.name ?? "");
   };
 
-  const toggleTools = () => {
+  const handleToggleTools = () => {
     setToolsEnabled((prev) => {
       if (prev) {
         setShowPresetsPanel(false);
         setShowTemplatesPanel(false);
+      } else {
+        setShowPresetsPanel(true);
+        setShowTemplatesPanel(true);
       }
 
       return !prev;
@@ -195,30 +198,31 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
     setInput("");
   };
 
-  const leftActions = [
-    ...DEFAULT_COMPOSER_LEFT_ACTIONS.map((action) => ({
-      ...action,
-      onClick: action.id === "attach" ? handleUploadClick : () => undefined,
-    })),
-    {
-      id: "tools",
-      icon: Wrench,
-      label: toolsEnabled ? "Tools on" : "Tools off",
-      onClick: toggleTools,
-    },
-    {
-      id: "presets",
-      icon: Sparkles,
-      label: "Presets",
-      onClick: togglePresetsPanel,
-    },
-    {
-      id: "templates",
-      icon: SlidersHorizontal,
-      label: "Templates",
-      onClick: toggleTemplatesPanel,
-    },
-  ];
+  const baseLeftActions = DEFAULT_COMPOSER_LEFT_ACTIONS.filter(
+    (action) => action.id === "attach",
+  );
+  const toolLeftActions = DEFAULT_COMPOSER_LEFT_ACTIONS.filter(
+    (action) => action.id !== "attach",
+  );
+  const visibleLeftActions = toolsEnabled
+    ? [...baseLeftActions, ...toolLeftActions]
+    : baseLeftActions;
+
+  const leftActions = visibleLeftActions.map((action) => ({
+    ...action,
+    onClick:
+      action.id === "attach"
+        ? handleUploadClick
+        : action.id === "tools"
+          ? handleToggleTools
+          : action.id === "presets"
+            ? togglePresetsPanel
+            : action.id === "templates"
+              ? toggleTemplatesPanel
+              : () => undefined,
+    label:
+      action.id === "tools" ? (toolsEnabled ? "Tools on" : "Tools off") : action.label,
+  }));
 
   const rightActions = DEFAULT_COMPOSER_RIGHT_ACTIONS.map((action) => ({
     ...action,
@@ -292,7 +296,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                         {showTemplatesPanel && (
                           <TemplatePanel onSelectTemplate={(prompt) => setInput(prompt)} />
                         )}
-                        {selectedFileName && (
+                        {toolsEnabled && selectedFileName && (
                           <span className="hidden max-w-[180px] truncate text-xs text-muted-foreground md:inline">
                             {selectedFileName}
                           </span>
@@ -407,7 +411,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                     {showTemplatesPanel && (
                       <TemplatePanel onSelectTemplate={(prompt) => setInput(prompt)} />
                     )}
-                    {selectedFileName && (
+                    {toolsEnabled && selectedFileName && (
                       <span className="hidden max-w-[180px] truncate text-xs text-muted-foreground md:inline">
                         {selectedFileName}
                       </span>
