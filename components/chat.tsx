@@ -51,11 +51,21 @@ function LogoMark() {
   );
 }
 
-function TopbarButtons({ onNewChat }: { onNewChat: () => void }) {
+function TopbarButtons({
+  onNewChat,
+  favoritesOn,
+  onToggleFavorites,
+}: {
+  onNewChat: () => void;
+  favoritesOn: boolean;
+  onToggleFavorites: () => void;
+}) {
   const getButtonAction = (buttonId: string) => {
     switch (buttonId) {
       case "new-chat":
         return onNewChat;
+      case "favorites":
+        return onToggleFavorites;
       default:
         return () => undefined;
     }
@@ -76,15 +86,25 @@ function TopbarButtons({ onNewChat }: { onNewChat: () => void }) {
 
         return (
           <Button
+            id={button.id}
             key={button.id}
             onClick={getButtonAction(button.id)}
             variant="outline"
             size="sm"
             title={button.title}
             aria-label={button.label}
-            className="h-10 w-10 gap-2 border-border/80 bg-muted/40 px-0 shadow-border-small hover:bg-muted/70 hover:shadow-border-medium md:w-auto md:px-3"
+            aria-pressed={button.id === "favorites" ? favoritesOn : undefined}
+            className={cn(
+              "h-10 w-10 gap-2 border-border/80 bg-muted/40 px-0 shadow-border-small hover:bg-muted/70 hover:shadow-border-medium md:w-auto md:px-3",
+              button.id === "favorites" && favoritesOn && "bg-muted/90"
+            )}
           >
-            <Icon className="h-5 w-5" />
+            <Icon
+              className={cn(
+                "h-5 w-5",
+                button.id === "favorites" && favoritesOn && "fill-current"
+              )}
+            />
             <span className="hidden md:inline">{button.label}</span>
           </Button>
         );
@@ -98,6 +118,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
   const [currentModelId, setCurrentModelId] = useState(modelId);
   const [currentPresetId, setCurrentPresetId] = useState("caption_writer");
   const [selectedFileName, setSelectedFileName] = useState("");
+  const [favoritesOn, setFavoritesOn] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const uploadInputRef = useRef<HTMLInputElement>(null);
 
@@ -173,7 +194,13 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
               />
             }
             center={<LogoMark />}
-            right={<TopbarButtons onNewChat={handleNewChat} />}
+            right={
+              <TopbarButtons
+                onNewChat={handleNewChat}
+                favoritesOn={favoritesOn}
+                onToggleFavorites={() => setFavoritesOn((prev) => !prev)}
+              />
+            }
           />
         </div>
       </header>
