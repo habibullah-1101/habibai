@@ -13,7 +13,7 @@ import {
   DEFAULT_TOPBAR_BUTTONS,
 } from "@/lib/ui-config";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, Check, SlidersHorizontal } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Streamdown } from "streamdown";
@@ -73,7 +73,7 @@ function TopbarButtons({
 
   return (
     <>
-      {DEFAULT_TOPBAR_BUTTONS.map((button) => {
+      {DEFAULT_TOPBAR_BUTTONS.filter((button) => button.id !== "advanced-mode").map((button) => {
         if (button.type === "theme-toggle") {
           return <ThemeToggle key={button.id} />;
         }
@@ -119,11 +119,15 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
   const [currentPresetId, setCurrentPresetId] = useState("caption_writer");
   const [selectedFileName, setSelectedFileName] = useState("");
   const [favoritesOn, setFavoritesOn] = useState(false);
-  const [toolsEnabled, setToolsEnabled] = useState(false);
+  const [advancedMenuOpen, setAdvancedMenuOpen] = useState(false);
   const [showPresetsPanel, setShowPresetsPanel] = useState(false);
   const [showTemplatesPanel, setShowTemplatesPanel] = useState(false);
+  const [advancedIndicatorPosition, setAdvancedIndicatorPosition] = useState({ top: 0, left: 0 });
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const uploadInputRef = useRef<HTMLInputElement>(null);
+  const advancedMenuRef = useRef<HTMLDivElement>(null);
+  const advancedButtonRef = useRef<HTMLButtonElement>(null);
+  const composerShellRef = useRef<HTMLDivElement>(null);
 
   const handleModelIdChange = (newModelId: string) => {
     setCurrentModelId(newModelId);
@@ -156,35 +160,15 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
     setSelectedFileName(file?.name ?? "");
   };
 
-  const handleToggleTools = () => {
-    setToolsEnabled((prev) => {
-      if (prev) {
-        setShowPresetsPanel(false);
-        setShowTemplatesPanel(false);
-      } else {
-        setShowPresetsPanel(true);
-        setShowTemplatesPanel(true);
-      }
-
-      return !prev;
-    });
-  };
-
   const togglePresetsPanel = () => {
-    if (!toolsEnabled) {
-      return;
-    }
-
     setShowPresetsPanel((prev) => !prev);
   };
 
   const toggleTemplatesPanel = () => {
-    if (!toolsEnabled) {
-      return;
-    }
-
     setShowTemplatesPanel((prev) => !prev);
   };
+
+  const advancedEnabled = showPresetsPanel || showTemplatesPanel;
 
   const onSend = () => {
     if (!input.trim()) {
@@ -198,31 +182,17 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
     setInput("");
   };
 
-  const baseLeftActions = DEFAULT_COMPOSER_LEFT_ACTIONS.filter(
-    (action) => action.id === "attach",
-  );
-  const toolLeftActions = DEFAULT_COMPOSER_LEFT_ACTIONS.filter(
-    (action) => action.id !== "attach",
-  );
-  const visibleLeftActions = toolsEnabled
-    ? [...baseLeftActions, ...toolLeftActions]
-    : baseLeftActions;
-
-  const leftActions = visibleLeftActions.map((action) => ({
+  const leftActions = DEFAULT_COMPOSER_LEFT_ACTIONS.filter((action) => action.id === "attach").map((action) => ({
     ...action,
-    onClick:
-      action.id === "attach"
-        ? handleUploadClick
-        : action.id === "tools"
-          ? handleToggleTools
-          : action.id === "presets"
-            ? togglePresetsPanel
-            : action.id === "templates"
-              ? toggleTemplatesPanel
-              : () => undefined,
-    label:
-      action.id === "tools" ? (toolsEnabled ? "Tools on" : "Tools off") : action.label,
+    onClick: handleUploadClick,
   }));
+
+  leftActions.push({
+    id: "advanced-menu",
+    label: "Advanced",
+    icon: SlidersHorizontal,
+    onClick: () => setAdvancedMenuOpen((prev) => !prev),
+  });
 
   const rightActions = DEFAULT_COMPOSER_RIGHT_ACTIONS.map((action) => ({
     ...action,
@@ -230,7 +200,64 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
   }));
 
   const showComposerPanels =
-    toolsEnabled && (showPresetsPanel || showTemplatesPanel || Boolean(selectedFileName));
+    showPresetsPanel || showTemplatesPanel || Boolean(selectedFileName);
+
+  useEffect(() => {
+    const container = composerShellRef.current;
+
+    if (!container) {
+      return;
+    }
+
+    advancedButtonRef.current = container.querySelector(
+      'button[aria-label="Advanced"]',
+    ) as HTMLButtonElement | null;
+
+    if (!advancedButtonRef.current) {
+      return;
+    }
+
+    const buttonRect = advancedButtonRef.current.getBoundingClientRect();
+    const containerRect = container.getBoundingClientRect();
+
+    setAdvancedIndicatorPosition({
+      top: buttonRect.top - containerRect.top + 6,
+      left: buttonRect.left - containerRect.left + buttonRect.width - 10,
+    });
+  }, [hasMessages, input]);
+
+  useEffect(() => {
+    if (!advancedMenuOpen) {
+      return;
+    }
+
+    const closeOnOutsideClick = (event: MouseEvent) => {
+      const target = event.target as Node;
+
+      if (
+        advancedMenuRef.current?.contains(target) ||
+        advancedButtonRef.current?.contains(target)
+      ) {
+        return;
+      }
+
+      setAdvancedMenuOpen(false);
+    };
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setAdvancedMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", closeOnOutsideClick);
+    document.addEventListener("keydown", closeOnEscape);
+
+    return () => {
+      document.removeEventListener("mousedown", closeOnOutsideClick);
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [advancedMenuOpen]);
 
   return (
     <div className="flex h-screen flex-col overflow-hidden pl-16 pt-14">
@@ -276,7 +303,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                   onSend();
                 }}
               >
-                <div>
+                <div ref={composerShellRef} className="relative">
                   <ComposerPill
                     value={input}
                     onChange={setInput}
@@ -284,6 +311,45 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                     leftActions={leftActions}
                     rightActions={rightActions}
                   />
+                  {advancedMenuOpen && (
+                    <div
+                      ref={advancedMenuRef}
+                      className="absolute left-28 top-[calc(100%-2.25rem)] z-20 w-56 max-h-72 overflow-y-auto rounded-2xl border bg-background/90 p-2 shadow-border-medium backdrop-blur-sm"
+                    >
+                      <button
+                        type="button"
+                        className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm hover:bg-muted/70"
+                        onClick={togglePresetsPanel}
+                      >
+                        <span>Presets</span>
+                        <Check
+                          className={cn(
+                            "h-4 w-4",
+                            showPresetsPanel ? "opacity-100" : "opacity-0",
+                          )}
+                        />
+                      </button>
+                      <button
+                        type="button"
+                        className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm hover:bg-muted/70"
+                        onClick={toggleTemplatesPanel}
+                      >
+                        <span>Templates</span>
+                        <Check
+                          className={cn(
+                            "h-4 w-4",
+                            showTemplatesPanel ? "opacity-100" : "opacity-0",
+                          )}
+                        />
+                      </button>
+                    </div>
+                  )}
+                  {advancedEnabled && (
+                    <span
+                      className="pointer-events-none absolute z-10 h-1.5 w-1.5 rounded-full bg-primary"
+                      style={advancedIndicatorPosition}
+                    />
+                  )}
                   {showComposerPanels && (
                     <div className="mt-2 rounded-xl border bg-background/80 px-3 py-3 backdrop-blur-sm md:px-4">
                       <div className="flex items-center gap-2 md:gap-3">
@@ -296,7 +362,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                         {showTemplatesPanel && (
                           <TemplatePanel onSelectTemplate={(prompt) => setInput(prompt)} />
                         )}
-                        {toolsEnabled && selectedFileName && (
+                        {selectedFileName && (
                           <span className="hidden max-w-[180px] truncate text-xs text-muted-foreground md:inline">
                             {selectedFileName}
                           </span>
@@ -306,7 +372,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                   )}
                 </div>
               </form>
-              {toolsEnabled && (
+              {advancedEnabled && (
                 <div className="mt-4 md:mt-6">
                   <SavedPrompts
                     currentInput={input}
@@ -376,7 +442,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
 
       {hasMessages && (
         <div className="w-full max-w-4xl mx-auto">
-          {toolsEnabled && (
+          {advancedEnabled && (
             <div className="px-4 md:px-8 pb-3 md:pb-4">
               <SavedPrompts
                 currentInput={input}
@@ -391,7 +457,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
             }}
             className="px-4 md:px-8 pb-6 md:pb-8"
           >
-            <div>
+            <div ref={composerShellRef} className="relative">
               <ComposerPill
                 value={input}
                 onChange={setInput}
@@ -399,6 +465,45 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                 leftActions={leftActions}
                 rightActions={rightActions}
               />
+              {advancedMenuOpen && (
+                <div
+                  ref={advancedMenuRef}
+                  className="absolute left-28 top-[calc(100%-2.25rem)] z-20 w-56 max-h-72 overflow-y-auto rounded-2xl border bg-background/90 p-2 shadow-border-medium backdrop-blur-sm"
+                >
+                  <button
+                    type="button"
+                    className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm hover:bg-muted/70"
+                    onClick={togglePresetsPanel}
+                  >
+                    <span>Presets</span>
+                    <Check
+                      className={cn(
+                        "h-4 w-4",
+                        showPresetsPanel ? "opacity-100" : "opacity-0",
+                      )}
+                    />
+                  </button>
+                  <button
+                    type="button"
+                    className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm hover:bg-muted/70"
+                    onClick={toggleTemplatesPanel}
+                  >
+                    <span>Templates</span>
+                    <Check
+                      className={cn(
+                        "h-4 w-4",
+                        showTemplatesPanel ? "opacity-100" : "opacity-0",
+                      )}
+                    />
+                  </button>
+                </div>
+              )}
+              {advancedEnabled && (
+                <span
+                  className="pointer-events-none absolute z-10 h-1.5 w-1.5 rounded-full bg-primary"
+                  style={advancedIndicatorPosition}
+                />
+              )}
               {showComposerPanels && (
                 <div className="mt-2 rounded-xl border bg-background/80 px-3 py-3 backdrop-blur-sm md:px-4">
                   <div className="flex items-center gap-2 md:gap-3">
@@ -411,7 +516,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                     {showTemplatesPanel && (
                       <TemplatePanel onSelectTemplate={(prompt) => setInput(prompt)} />
                     )}
-                    {toolsEnabled && selectedFileName && (
+                    {selectedFileName && (
                       <span className="hidden max-w-[180px] truncate text-xs text-muted-foreground md:inline">
                         {selectedFileName}
                       </span>
