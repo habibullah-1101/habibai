@@ -7,14 +7,10 @@ import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useState, useEffect, useRef } from "react";
 import { DEFAULT_MODEL } from "@/lib/constants";
-import {
-  DEFAULT_COMPOSER_RIGHT_ACTIONS,
-  DEFAULT_TOPBAR_BUTTONS,
-} from "@/lib/ui-config";
+import { DEFAULT_COMPOSER_RIGHT_ACTIONS } from "@/lib/ui-config";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle, Plus } from "lucide-react";
+import { AlertCircle, Menu, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 import { Streamdown } from "streamdown";
 import { Sidebar } from "@/components/sidebar";
 import { TopPillBar } from "@/components/top-pill-bar";
@@ -41,72 +37,39 @@ function ModelSelectorHandler({
   return <ModelSelector modelId={modelId} onModelChange={handleSelectChange} />;
 }
 
-function LogoMark() {
+function HamburgerButton() {
   return (
-    <Link href="/" className="font-semibold tracking-tight text-sm md:text-base">
-      HABIB AI
-    </Link>
+    <Button
+      type="button"
+      variant="ghost"
+      size="icon"
+      aria-label="Open sidebar menu"
+      title="Menu"
+      className="h-9 w-9 rounded-full border border-border/60 bg-muted/35 hover:bg-muted/60"
+    >
+      <Menu className="h-4 w-4" />
+    </Button>
   );
 }
 
-function TopbarButtons({
-  onNewChat,
-  favoritesOn,
-  onToggleFavorites,
-}: {
-  onNewChat: () => void;
-  favoritesOn: boolean;
-  onToggleFavorites: () => void;
-}) {
-  const getButtonAction = (buttonId: string) => {
-    switch (buttonId) {
-      case "new-chat":
-        return onNewChat;
-      case "favorites":
-        return onToggleFavorites;
-      default:
-        return () => undefined;
-    }
-  };
-
+function TopbarButtons({ onNewChat }: { onNewChat: () => void }) {
   return (
     <>
-      {DEFAULT_TOPBAR_BUTTONS.filter((button) => button.id !== "advanced-mode").map((button) => {
-        if (button.type === "theme-toggle") {
-          return <ThemeToggle key={button.id} />;
-        }
-
-        const Icon = button.icon;
-
-        if (!Icon) {
-          return null;
-        }
-
-        return (
-          <Button
-            id={button.id}
-            key={button.id}
-            onClick={getButtonAction(button.id)}
-            variant="outline"
-            size="sm"
-            title={button.title}
-            aria-label={button.label}
-            aria-pressed={button.id === "favorites" ? favoritesOn : undefined}
-            className={cn(
-              "h-10 w-10 gap-2 border-border/80 bg-muted/40 px-0 shadow-border-small hover:bg-muted/70 hover:shadow-border-medium md:w-auto md:px-3",
-              button.id === "favorites" && favoritesOn && "bg-muted/90"
-            )}
-          >
-            <Icon
-              className={cn(
-                "h-5 w-5",
-                button.id === "favorites" && favoritesOn && "fill-current"
-              )}
-            />
-            <span className="hidden md:inline">{button.label}</span>
-          </Button>
-        );
-      })}
+      <Button
+        type="button"
+        onClick={onNewChat}
+        variant="ghost"
+        size="icon"
+        title="Start new chat"
+        aria-label="Start new chat"
+        className={cn(
+          "h-9 w-9 rounded-full border border-border/60 bg-muted/35",
+          "hover:bg-muted/60",
+        )}
+      >
+        <Plus className="h-4 w-4" />
+      </Button>
+      <ThemeToggle />
     </>
   );
 }
@@ -115,7 +78,6 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
   const [input, setInput] = useState("");
   const [currentModelId, setCurrentModelId] = useState(modelId);
   const [currentPresetId, setCurrentPresetId] = useState("caption_writer");
-  const [favoritesOn, setFavoritesOn] = useState(false);
   const [actionSheetOpen, setActionSheetOpen] = useState(false);
   const [toolsPanel, setToolsPanel] = useState<ToolsMenuPanel>("root");
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -217,7 +179,8 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
           const fileName = event.target.files?.[0]?.name;
 
           if (fileName) {
-            setInput((prev) => (prev ? `${prev}\nAttached file: ${fileName}` : `Attached file: ${fileName}`));
+            setInput((prev) => (prev ? `${prev}
+Attached file: ${fileName}` : `Attached file: ${fileName}`));
           }
 
           event.target.value = "";
@@ -227,20 +190,14 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
       <header className="fixed top-0 left-16 right-0 z-20 bg-transparent px-4 py-2 animate-fade-in md:px-8">
         <div className="mx-auto w-full max-w-4xl">
           <TopPillBar
-            left={
+            left={<HamburgerButton />}
+            center={
               <ModelSelectorHandler
                 modelId={currentModelId}
                 onModelIdChange={handleModelIdChange}
               />
             }
-            center={<LogoMark />}
-            right={
-              <TopbarButtons
-                onNewChat={handleNewChat}
-                favoritesOn={favoritesOn}
-                onToggleFavorites={() => setFavoritesOn((prev) => !prev)}
-              />
-            }
+            right={<TopbarButtons onNewChat={handleNewChat} />}
           />
         </div>
       </header>
@@ -259,15 +216,13 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                   onSend();
                 }}
               >
-                <div className="relative">
-                  <ComposerPill
-                    value={input}
-                    onChange={setInput}
-                    onSend={onSend}
-                    leftActions={leftActions}
-                    rightActions={rightActions}
-                  />
-                </div>
+                <ComposerPill
+                  value={input}
+                  onChange={setInput}
+                  leftActions={leftActions}
+                  rightActions={rightActions}
+                  onSend={onSend}
+                />
               </form>
             </div>
           </div>
@@ -275,124 +230,95 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
       )}
 
       {hasMessages && (
-        <div className="flex-1 flex flex-col max-w-4xl mx-auto w-full animate-fade-in overflow-hidden">
-          <div className="flex-1 overflow-y-auto px-4 md:px-8 py-4 hide-scrollbar">
-            <div className="flex flex-col gap-4 md:gap-6 pb-4">
-              {messages.map((m) => (
-                <div
-                  key={m.id}
-                  className={cn(
-                    m.role === "user" &&
-                      "bg-foreground text-background rounded-2xl p-3 md:p-4 ml-auto max-w-[90%] md:max-w-[75%] shadow-border-small font-medium text-sm md:text-base",
-                    m.role === "assistant" && "max-w-[95%] md:max-w-[85%] text-foreground/90 leading-relaxed text-sm md:text-base"
-                  )}
-                >
-                  {m.parts.map((part, i) => {
-                    switch (part.type) {
-                      case "text":
-                        return m.role === "assistant" ? (
-                          <Streamdown key={`${m.id}-${i}`} isAnimating={status === "streaming" && m.id === messages[messages.length - 1]?.id}>
-                            {part.text}
-                          </Streamdown>
-                        ) : (
-                          <div key={`${m.id}-${i}`}>{part.text}</div>
-                        );
+        <main className="flex-1 overflow-y-auto px-4 py-6 md:px-8">
+          <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 pb-48">
+            {messages.map((message, index) => (
+              <article
+                key={message.id}
+                className={cn(
+                  "w-full rounded-2xl px-5 py-4 shadow-border-small",
+                  message.role === "user"
+                    ? "ml-auto max-w-[85%] bg-muted/80"
+                    : "mr-auto max-w-[90%] bg-background border"
+                )}
+              >
+                <header className="mb-2 text-xs uppercase tracking-wider text-muted-foreground">
+                  {message.role === "user" ? "You" : "Habib AI"}
+                </header>
+                <div className="text-sm leading-relaxed">
+                  {message.parts.map((part, partIndex) => {
+                    if (part.type === "text") {
+                      return <Streamdown key={`${message.id}-${partIndex}`}>{part.text}</Streamdown>;
                     }
+
+                    return null;
                   })}
                 </div>
-              ))}
+                {message.role === "assistant" && index === messages.length - 1 && status === "ready" && (
+                  <div className="mt-4 flex justify-end">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => regenerate()}
+                      className="rounded-full"
+                    >
+                      Regenerate
+                    </Button>
+                  </div>
+                )}
+              </article>
+            ))}
+            {error && (
+              <Alert variant="destructive" className="animate-slide-up">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>
+                  {error.message || "Something went wrong while generating the response."}
+                </AlertDescription>
+              </Alert>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+        </main>
+      )}
 
-              <div ref={messagesEndRef} />
-            </div>
+      {hasMessages && (
+        <div className="pointer-events-none fixed inset-x-0 bottom-0 z-20 flex justify-center px-4 pb-6 md:left-16 md:px-8">
+          <div className="pointer-events-auto w-full max-w-4xl">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                onSend();
+              }}
+            >
+              <ComposerPill
+                value={input}
+                onChange={setInput}
+                leftActions={leftActions}
+                rightActions={rightActions}
+                onSend={onSend}
+              />
+            </form>
           </div>
         </div>
       )}
 
-      {error && (
-        <div className="max-w-4xl mx-auto w-full px-4 md:px-8 pb-4 animate-slide-down">
-          <Alert variant="destructive" className="flex flex-col items-end">
-            <div className="flex flex-row gap-2">
-              <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
-              <AlertDescription className="dark:text-red-400 text-red-600">
-                {error.message.startsWith("AI Gateway requires a valid credit card") ? <div>AI Gateway requires a valid credit card on file to service requests. Please visit your <Link className="underline underline-offset-4" href="https://vercel.com/d?to=%2F%5Bteam%5D%2F%7E%2Fai%3Fmodal%3Dadd-credit-card" target="_noblank">dashboard</Link> to add a card and unlock your free credits.</div> : "An error occurred while generating the response."}
-              </AlertDescription>
-            </div>
-            <Button
-              variant="outline"
-              size="sm"
-              className="ml-auto transition-all duration-150 ease-out hover:scale-105"
-              onClick={() => regenerate()}
-            >
-              Retry
-            </Button>
-          </Alert>
-        </div>
-      )}
-
-      {hasMessages && (
-        <div className="w-full max-w-4xl mx-auto">
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              onSend();
-            }}
-            className="px-4 md:px-8 pb-6 md:pb-8"
-          >
-            <div className="relative">
-              <ComposerPill
-                value={input}
-                onChange={setInput}
-                onSend={onSend}
-                leftActions={leftActions}
-                rightActions={rightActions}
-              />
-            </div>
-          </form>
-        </div>
-      )}
-
-      <footer className="pb-8 text-center animate-fade-in" style={{ animationDelay: '200ms' }}>
-        <p className="text-xs md:text-sm text-muted-foreground">
-          The models in the list are a small subset of those available in the
-          Vercel AI Gateway.
-          <br />
-          See the{" "}
-          <Button
-            variant="link"
-            asChild
-            className="p-0 h-auto text-xs md:text-sm font-normal"
-          >
-            <a
-              href="https://vercel.com/d?to=%2F%5Bteam%5D%2F%7E%2Fai%2Fmodel-list&title="
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              model library
-            </a>
-          </Button>{" "}
-          for the full set. {" "}
-          <Button
-            variant="link"
-            asChild
-            className="p-0 h-auto text-xs md:text-sm font-normal"
-          >
-            <Link href="/about">About</Link>
-          </Button>
-        </p>
-      </footer>
-
       <ActionSheet
         open={actionSheetOpen}
+        title={TOOLS_MENU_TITLES[toolsPanel]}
+        items={actionSheetItems}
         onOpenChange={(open) => {
           setActionSheetOpen(open);
-
           if (!open) {
             setToolsPanel("root");
           }
         }}
-        items={actionSheetItems}
-        title={TOOLS_MENU_TITLES[toolsPanel]}
-        onBack={toolsPanel === "root" ? undefined : () => setToolsPanel("root")}
+        onBack={
+          toolsPanel !== "root"
+            ? () => {
+                setToolsPanel("root");
+              }
+            : undefined
+        }
       />
     </div>
   );
