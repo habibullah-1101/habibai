@@ -11,15 +11,24 @@ export type ActionSheetItem = {
   description?: string;
   icon?: LucideIcon;
   onClick: () => void;
+  closeOnSelect?: boolean;
 };
 
 export type ActionSheetProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   items: ActionSheetItem[];
+  title?: string;
+  onBack?: () => void;
 };
 
-export function ActionSheet({ open, onOpenChange, items }: ActionSheetProps) {
+export function ActionSheet({
+  open,
+  onOpenChange,
+  items,
+  title = "Habib AI",
+  onBack,
+}: ActionSheetProps) {
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
@@ -27,15 +36,20 @@ export function ActionSheet({ open, onOpenChange, items }: ActionSheetProps) {
         <Dialog.Content className="fixed inset-x-0 bottom-0 z-50 rounded-t-3xl border border-border/70 bg-background/95 p-4 pb-6 shadow-2xl outline-none backdrop-blur-md sm:mx-auto sm:max-w-xl">
           <div className="mx-auto mb-3 h-1.5 w-12 rounded-full bg-muted" />
           <div className="mb-3 flex items-center justify-between px-1">
-            <Dialog.Title className="text-sm font-semibold tracking-tight">Habib AI</Dialog.Title>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              className="h-8 px-2 text-xs text-muted-foreground"
-            >
-              All tools
-            </Button>
+            <div className="flex items-center gap-2">
+              {onBack ? (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 px-2 text-xs text-muted-foreground"
+                  onClick={onBack}
+                >
+                  Back
+                </Button>
+              ) : null}
+              <Dialog.Title className="text-sm font-semibold tracking-tight">{title}</Dialog.Title>
+            </div>
           </div>
           <div className="space-y-1">
             {items.map((item) => {
@@ -48,7 +62,9 @@ export function ActionSheet({ open, onOpenChange, items }: ActionSheetProps) {
                   className="flex w-full items-start gap-3 rounded-2xl px-3 py-2.5 text-left transition-colors hover:bg-muted/70"
                   onClick={() => {
                     item.onClick();
-                    onOpenChange(false);
+                    if (item.closeOnSelect ?? true) {
+                      onOpenChange(false);
+                    }
                   }}
                 >
                   <span className="mt-0.5 rounded-xl border border-border/70 bg-muted/40 p-2">
