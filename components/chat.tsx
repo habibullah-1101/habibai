@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useState, useEffect, useRef } from "react";
 import { DEFAULT_MODEL } from "@/lib/constants";
-import { DEFAULT_COMPOSER_RIGHT_ACTIONS } from "@/lib/ui-config";
+import { DEFAULT_COMPOSER_LEFT_ACTIONS, DEFAULT_COMPOSER_RIGHT_ACTIONS } from "@/lib/ui-config";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle, Menu, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -47,7 +47,7 @@ function HamburgerButton() {
       title="Menu"
       className="h-9 w-9 rounded-full border border-border/60 bg-muted/35 hover:bg-muted/60"
     >
-      <Menu className="h-4 w-4" />
+      <Menu className="h-5 w-5" />
     </Button>
   );
 }
@@ -67,7 +67,7 @@ function TopbarButtons({ onNewChat }: { onNewChat: () => void }) {
           "hover:bg-muted/60",
         )}
       >
-        <Plus className="h-4 w-4" />
+        <Plus className="h-5 w-5" />
       </Button>
       <ThemeToggle />
     </>
@@ -117,12 +117,10 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
     setInput("");
   };
 
-  const leftActions = [{
-    id: "tools-menu",
-    label: "Tools",
-    icon: Plus,
-    onClick: () => setActionSheetOpen(true),
-  }];
+  const leftActions = DEFAULT_COMPOSER_LEFT_ACTIONS.map((action) => ({
+    ...action,
+    onClick: action.id === "tools-menu" ? () => setActionSheetOpen(true) : () => undefined,
+  }));
 
   const rightActions = DEFAULT_COMPOSER_RIGHT_ACTIONS.map((action) => ({
     ...action,
@@ -170,7 +168,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
     }));
 
   return (
-    <div className="flex h-screen flex-col overflow-hidden pl-16 pt-14">
+    <div className={cn("flex h-screen flex-col overflow-hidden", hasMessages ? "pl-16 pt-14" : "pt-0")}>
       <input
         ref={fileInputRef}
         type="file"
@@ -186,8 +184,9 @@ Attached file: ${fileName}` : `Attached file: ${fileName}`));
           event.target.value = "";
         }}
       />
-      <Sidebar />
-      <header className="fixed top-0 left-16 right-0 z-20 bg-transparent px-4 py-2 animate-fade-in md:px-8">
+      {hasMessages && <Sidebar />}
+      {hasMessages && (
+        <header className="fixed top-0 left-16 right-0 z-20 bg-transparent px-4 py-2 animate-fade-in md:px-8">
         <div className="mx-auto w-full max-w-4xl">
           <TopPillBar
             left={<HamburgerButton />}
@@ -200,11 +199,12 @@ Attached file: ${fileName}` : `Attached file: ${fileName}`));
             right={<TopbarButtons onNewChat={handleNewChat} />}
           />
         </div>
-      </header>
+        </header>
+      )}
       {!hasMessages && (
         <div className="flex-1 flex flex-col items-center justify-center px-4 md:px-8 animate-fade-in">
-          <div className="w-full max-w-2xl text-center space-y-8 md:space-y-12">
-            <h1 className="text-3xl md:text-6xl font-light tracking-tight text-foreground animate-slide-up">
+          <div className="w-full max-w-4xl text-center space-y-8 md:space-y-12">
+            <h1 className="mx-auto max-w-2xl text-3xl md:text-6xl font-light tracking-tight text-foreground animate-slide-up">
               <span className="font-mono font-semibold tracking-tight bg-foreground text-background px-4 py-3 rounded-2xl shadow-border-medium">
                 HABIB AI
               </span>

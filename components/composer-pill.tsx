@@ -53,7 +53,7 @@ export function ComposerPill({
                 className="gap-1.5"
                 onClick={action.onClick}
               >
-                <Icon className="h-4 w-4" />
+                <Icon className="h-5 w-5" />
                 <span className="hidden md:inline">{action.label}</span>
               </Button>
             );
@@ -73,7 +73,7 @@ export function ComposerPill({
                 className="gap-1.5"
                 onClick={action.onClick}
               >
-                <Icon className="h-4 w-4" />
+                <Icon className="h-5 w-5" />
                 <span className="hidden md:inline">{action.label}</span>
               </Button>
             );

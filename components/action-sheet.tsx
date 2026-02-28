@@ -33,7 +33,7 @@ export function ActionSheet({
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-40 bg-black/50 backdrop-blur-[1px]" />
-        <Dialog.Content className="fixed inset-x-0 bottom-0 z-50 rounded-t-3xl border border-border/70 bg-background/95 p-4 pb-6 shadow-2xl outline-none backdrop-blur-md sm:mx-auto sm:max-w-xl">
+        <Dialog.Content className="fixed inset-x-0 bottom-0 z-50 flex max-h-[70vh] flex-col rounded-t-3xl border border-border/70 bg-background/95 p-4 pb-6 shadow-2xl outline-none backdrop-blur-md sm:mx-auto sm:max-w-xl">
           <div className="mx-auto mb-3 h-1.5 w-12 rounded-full bg-muted" />
           <div className="mb-3 flex items-center justify-between px-1">
             <div className="flex items-center gap-2">
@@ -51,7 +51,7 @@ export function ActionSheet({
               <Dialog.Title className="text-sm font-semibold tracking-tight">{title}</Dialog.Title>
             </div>
           </div>
-          <div className="space-y-1">
+          <div className="space-y-1 overflow-y-auto pr-1">
             {items.map((item) => {
               const Icon = item.icon ?? Sparkles;
 
@@ -68,7 +68,7 @@ export function ActionSheet({
                   }}
                 >
                   <span className="mt-0.5 rounded-xl border border-border/70 bg-muted/40 p-2">
-                    <Icon className="h-4 w-4" />
+                    <Icon className="h-5 w-5" />
                   </span>
                   <span className="min-w-0">
                     <span className="block truncate text-sm font-medium">{item.label}</span>

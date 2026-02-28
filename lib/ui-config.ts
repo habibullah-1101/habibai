@@ -1,9 +1,9 @@
 import {
   Database,
   LayoutGrid,
-  Paperclip,
   PlusIcon,
   Send,
+  Sparkles,
   Star,
   User,
   type LucideIcon,
@@ -59,7 +59,7 @@ export type ComposerActionConfig = {
 };
 
 export const DEFAULT_COMPOSER_LEFT_ACTIONS: ComposerActionConfig[] = [
-  { id: "attach", icon: Paperclip, label: "Attach" },
+  { id: "tools-menu", icon: Sparkles, label: "Tools" },
 ];
 
 export const DEFAULT_COMPOSER_RIGHT_ACTIONS: ComposerActionConfig[] = [
