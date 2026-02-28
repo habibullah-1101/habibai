@@ -12,7 +12,7 @@ import {
   DEFAULT_TOPBAR_BUTTONS,
 } from "@/lib/ui-config";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle, BookOpen, Globe, ImagePlus, Plus } from "lucide-react";
+import { AlertCircle, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Streamdown } from "streamdown";
@@ -20,6 +20,7 @@ import { Sidebar } from "@/components/sidebar";
 import { TopPillBar } from "@/components/top-pill-bar";
 import { ComposerPill } from "@/components/composer-pill";
 import { ActionSheet, type ActionSheetItem } from "@/components/action-sheet";
+import { TOOLS_MENU, type ToolsMenuPanel } from "@/lib/tools-menu";
 
 function ModelSelectorHandler({
   modelId,
@@ -113,10 +114,12 @@ function TopbarButtons({
 export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
   const [input, setInput] = useState("");
   const [currentModelId, setCurrentModelId] = useState(modelId);
-  const currentPresetId = "caption_writer";
+  const [currentPresetId, setCurrentPresetId] = useState("caption_writer");
   const [favoritesOn, setFavoritesOn] = useState(false);
   const [actionSheetOpen, setActionSheetOpen] = useState(false);
+  const [toolsPanel, setToolsPanel] = useState<ToolsMenuPanel>("root");
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleModelIdChange = (newModelId: string) => {
     setCurrentModelId(newModelId);
@@ -164,32 +167,62 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
     onClick: action.id === "send" ? onSend : () => undefined,
   }));
 
-  const actionSheetItems: ActionSheetItem[] = [
-    {
-      id: "create-image",
-      label: "Create image",
-      description: "Generate visuals from a prompt.",
-      icon: ImagePlus,
-      onClick: () => setInput((prev) => prev || "Create an image of "),
-    },
-    {
-      id: "web-search",
-      label: "Web search",
-      description: "Use online sources for up-to-date answers.",
-      icon: Globe,
-      onClick: () => setInput((prev) => prev || "Search the web for "),
-    },
-    {
-      id: "study",
-      label: "Study",
-      description: "Get step-by-step explanations and practice help.",
-      icon: BookOpen,
-      onClick: () => setInput((prev) => prev || "Help me study "),
-    },
-  ];
+  const actionSheetItems: ActionSheetItem[] = TOOLS_MENU
+    .filter((item) => item.panel === toolsPanel)
+    .map((item) => ({
+      id: item.id,
+      label: item.label,
+      description: item.description,
+      icon: item.icon,
+      closeOnSelect: item.action === "insert" || item.action === "select-preset" || item.action === "select-template" || item.action === "attach",
+      onClick: () => {
+        if (item.action === "panel" && item.targetPanel) {
+          setToolsPanel(item.targetPanel);
+          return;
+        }
+
+        if (item.action === "insert" && item.inputPrefix) {
+          setInput((prev) => prev || item.inputPrefix || "");
+          setToolsPanel("root");
+          return;
+        }
+
+        if (item.action === "attach") {
+          fileInputRef.current?.click();
+          setToolsPanel("root");
+          return;
+        }
+
+        if (item.action === "select-preset" && item.presetId) {
+          setCurrentPresetId(item.presetId);
+          setInput(`Using ${item.label} preset: `);
+          setToolsPanel("root");
+          return;
+        }
+
+        if (item.action === "select-template" && item.templatePrompt) {
+          setInput(item.templatePrompt);
+          setToolsPanel("root");
+        }
+      },
+    }));
 
   return (
     <div className="flex h-screen flex-col overflow-hidden pl-16 pt-14">
+      <input
+        ref={fileInputRef}
+        type="file"
+        className="hidden"
+        onChange={(event) => {
+          const fileName = event.target.files?.[0]?.name;
+
+          if (fileName) {
+            setInput((prev) => (prev ? `${prev}\nAttached file: ${fileName}` : `Attached file: ${fileName}`));
+          }
+
+          event.target.value = "";
+        }}
+      />
       <Sidebar />
       <header className="fixed top-0 left-16 right-0 z-20 bg-transparent px-4 py-2 animate-fade-in md:px-8">
         <div className="mx-auto w-full max-w-4xl">
@@ -350,8 +383,16 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
 
       <ActionSheet
         open={actionSheetOpen}
-        onOpenChange={setActionSheetOpen}
+        onOpenChange={(open) => {
+          setActionSheetOpen(open);
+
+          if (!open) {
+            setToolsPanel("root");
+          }
+        }}
         items={actionSheetItems}
+        title={toolsPanel === "root" ? "Tools" : toolsPanel === "presets" ? "Presets" : "Templates"}
+        onBack={toolsPanel === "root" ? undefined : () => setToolsPanel("root")}
       />
     </div>
   );
