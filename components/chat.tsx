@@ -8,18 +8,14 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { useState, useEffect, useRef } from "react";
 import { DEFAULT_MODEL } from "@/lib/constants";
 import {
-  DEFAULT_COMPOSER_LEFT_ACTIONS,
   DEFAULT_COMPOSER_RIGHT_ACTIONS,
   DEFAULT_TOPBAR_BUTTONS,
 } from "@/lib/ui-config";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle, BookOpen, Check, Globe, ImagePlus, Plus } from "lucide-react";
+import { AlertCircle, BookOpen, Globe, ImagePlus, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Streamdown } from "streamdown";
-import { PresetSelector } from "@/components/preset-selector";
-import { TemplatePanel } from "@/components/template-panel";
-import { SavedPrompts } from "@/components/saved-prompts";
 import { Sidebar } from "@/components/sidebar";
 import { TopPillBar } from "@/components/top-pill-bar";
 import { ComposerPill } from "@/components/composer-pill";
@@ -117,14 +113,10 @@ function TopbarButtons({
 export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
   const [input, setInput] = useState("");
   const [currentModelId, setCurrentModelId] = useState(modelId);
-  const [currentPresetId, setCurrentPresetId] = useState("caption_writer");
-  const [selectedFileName, setSelectedFileName] = useState("");
+  const currentPresetId = "caption_writer";
   const [favoritesOn, setFavoritesOn] = useState(false);
   const [actionSheetOpen, setActionSheetOpen] = useState(false);
-  const [showPresetsPanel, setShowPresetsPanel] = useState(false);
-  const [showTemplatesPanel, setShowTemplatesPanel] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const uploadInputRef = useRef<HTMLInputElement>(null);
 
   const handleModelIdChange = (newModelId: string) => {
     setCurrentModelId(newModelId);
@@ -148,25 +140,6 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
     setInput("");
   };
 
-  const handleUploadClick = () => {
-    uploadInputRef.current?.click();
-  };
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    setSelectedFileName(file?.name ?? "");
-  };
-
-  const togglePresetsPanel = () => {
-    setShowPresetsPanel((prev) => !prev);
-  };
-
-  const toggleTemplatesPanel = () => {
-    setShowTemplatesPanel((prev) => !prev);
-  };
-
-  const advancedEnabled = showPresetsPanel || showTemplatesPanel;
-
   const onSend = () => {
     if (!input.trim()) {
       return;
@@ -179,25 +152,17 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
     setInput("");
   };
 
-  const leftActions = DEFAULT_COMPOSER_LEFT_ACTIONS.filter((action) => action.id === "attach").map((action) => ({
-    ...action,
-    onClick: handleUploadClick,
-  }));
-
-  leftActions.push({
+  const leftActions = [{
     id: "tools-menu",
     label: "Tools",
     icon: Plus,
     onClick: () => setActionSheetOpen(true),
-  });
+  }];
 
   const rightActions = DEFAULT_COMPOSER_RIGHT_ACTIONS.map((action) => ({
     ...action,
     onClick: action.id === "send" ? onSend : () => undefined,
   }));
-
-  const showComposerPanels =
-    showPresetsPanel || showTemplatesPanel || Boolean(selectedFileName);
 
   const actionSheetItems: ActionSheetItem[] = [
     {
@@ -221,31 +186,11 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
       icon: BookOpen,
       onClick: () => setInput((prev) => prev || "Help me study "),
     },
-    {
-      id: "presets",
-      label: "Presets",
-      description: "Toggle the presets panel.",
-      icon: Check,
-      onClick: togglePresetsPanel,
-    },
-    {
-      id: "templates",
-      label: "Templates",
-      description: "Toggle the templates panel.",
-      icon: Check,
-      onClick: toggleTemplatesPanel,
-    },
   ];
 
   return (
     <div className="flex h-screen flex-col overflow-hidden pl-16 pt-14">
       <Sidebar />
-      <input
-        ref={uploadInputRef}
-        type="file"
-        className="hidden"
-        onChange={handleFileChange}
-      />
       <header className="fixed top-0 left-16 right-0 z-20 bg-transparent px-4 py-2 animate-fade-in md:px-8">
         <div className="mx-auto w-full max-w-4xl">
           <TopPillBar
@@ -289,36 +234,8 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                     leftActions={leftActions}
                     rightActions={rightActions}
                   />
-                  {showComposerPanels && (
-                    <div className="mt-2 rounded-xl border bg-background/80 px-3 py-3 backdrop-blur-sm md:px-4">
-                      <div className="flex items-center gap-2 md:gap-3">
-                        {showPresetsPanel && (
-                          <PresetSelector
-                            presetId={currentPresetId}
-                            onPresetChange={setCurrentPresetId}
-                          />
-                        )}
-                        {showTemplatesPanel && (
-                          <TemplatePanel onSelectTemplate={(prompt) => setInput(prompt)} />
-                        )}
-                        {selectedFileName && (
-                          <span className="hidden max-w-[180px] truncate text-xs text-muted-foreground md:inline">
-                            {selectedFileName}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  )}
                 </div>
               </form>
-              {advancedEnabled && (
-                <div className="mt-4 md:mt-6">
-                  <SavedPrompts
-                    currentInput={input}
-                    onPickPrompt={(text) => setInput(text)}
-                  />
-                </div>
-              )}
             </div>
           </div>
         </div>
@@ -381,14 +298,6 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
 
       {hasMessages && (
         <div className="w-full max-w-4xl mx-auto">
-          {advancedEnabled && (
-            <div className="px-4 md:px-8 pb-3 md:pb-4">
-              <SavedPrompts
-                currentInput={input}
-                onPickPrompt={(text) => setInput(text)}
-              />
-            </div>
-          )}
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -404,26 +313,6 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                 leftActions={leftActions}
                 rightActions={rightActions}
               />
-              {showComposerPanels && (
-                <div className="mt-2 rounded-xl border bg-background/80 px-3 py-3 backdrop-blur-sm md:px-4">
-                  <div className="flex items-center gap-2 md:gap-3">
-                    {showPresetsPanel && (
-                      <PresetSelector
-                        presetId={currentPresetId}
-                        onPresetChange={setCurrentPresetId}
-                      />
-                    )}
-                    {showTemplatesPanel && (
-                      <TemplatePanel onSelectTemplate={(prompt) => setInput(prompt)} />
-                    )}
-                    {selectedFileName && (
-                      <span className="hidden max-w-[180px] truncate text-xs text-muted-foreground md:inline">
-                        {selectedFileName}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              )}
             </div>
           </form>
         </div>
