@@ -208,7 +208,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
     }));
 
   return (
-    <div className="flex h-screen flex-col overflow-hidden pl-16 pt-14">
+    <div className="flex h-screen flex-col overflow-hidden pt-14 md:pl-16">
       <input
         ref={fileInputRef}
         type="file"
@@ -224,7 +224,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
         }}
       />
       <Sidebar />
-      <header className="fixed top-0 left-16 right-0 z-20 bg-transparent px-4 py-2 animate-fade-in md:px-8">
+      <header className="fixed top-0 left-0 right-0 z-20 bg-transparent px-4 py-2 animate-fade-in md:left-16 md:px-8">
         <div className="mx-auto w-full max-w-4xl">
           <TopPillBar
             left={
