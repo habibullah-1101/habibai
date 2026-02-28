@@ -16,6 +16,13 @@ export type ToolMenuItemConfig = {
   inputPrefix?: string;
   presetId?: string;
   templatePrompt?: string;
+  closeOnSelect?: boolean;
+};
+
+export const TOOLS_MENU_TITLES: Record<ToolsMenuPanel, string> = {
+  root: "Tools",
+  presets: "Presets",
+  templates: "Templates",
 };
 
 const ROOT_TOOLS: ToolMenuItemConfig[] = [
@@ -26,6 +33,7 @@ const ROOT_TOOLS: ToolMenuItemConfig[] = [
     icon: Paperclip,
     panel: "root",
     action: "attach",
+    closeOnSelect: true,
   },
   {
     id: "web-search",
@@ -35,6 +43,7 @@ const ROOT_TOOLS: ToolMenuItemConfig[] = [
     panel: "root",
     action: "insert",
     inputPrefix: "Search the web for ",
+    closeOnSelect: true,
   },
   {
     id: "presets",
@@ -64,6 +73,7 @@ const PRESET_TOOLS: ToolMenuItemConfig[] = PRESETS.map((preset) => ({
   panel: "presets",
   action: "select-preset",
   presetId: preset.id,
+  closeOnSelect: true,
 }));
 
 const TEMPLATE_TOOLS: ToolMenuItemConfig[] = TEMPLATES.map((template) => ({
@@ -74,6 +84,7 @@ const TEMPLATE_TOOLS: ToolMenuItemConfig[] = TEMPLATES.map((template) => ({
   panel: "templates",
   action: "select-template",
   templatePrompt: template.prompt,
+  closeOnSelect: true,
 }));
 
 export const TOOLS_MENU: ToolMenuItemConfig[] = [

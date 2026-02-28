@@ -20,7 +20,7 @@ import { Sidebar } from "@/components/sidebar";
 import { TopPillBar } from "@/components/top-pill-bar";
 import { ComposerPill } from "@/components/composer-pill";
 import { ActionSheet, type ActionSheetItem } from "@/components/action-sheet";
-import { TOOLS_MENU, type ToolsMenuPanel } from "@/lib/tools-menu";
+import { TOOLS_MENU, TOOLS_MENU_TITLES, type ToolsMenuPanel } from "@/lib/tools-menu";
 
 function ModelSelectorHandler({
   modelId,
@@ -174,7 +174,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
       label: item.label,
       description: item.description,
       icon: item.icon,
-      closeOnSelect: item.action === "insert" || item.action === "select-preset" || item.action === "select-template" || item.action === "attach",
+      closeOnSelect: item.closeOnSelect,
       onClick: () => {
         if (item.action === "panel" && item.targetPanel) {
           setToolsPanel(item.targetPanel);
@@ -391,7 +391,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
           }
         }}
         items={actionSheetItems}
-        title={toolsPanel === "root" ? "Tools" : toolsPanel === "presets" ? "Presets" : "Templates"}
+        title={TOOLS_MENU_TITLES[toolsPanel]}
         onBack={toolsPanel === "root" ? undefined : () => setToolsPanel("root")}
       />
     </div>
