@@ -13,7 +13,7 @@ import {
   DEFAULT_TOPBAR_BUTTONS,
 } from "@/lib/ui-config";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle, Check, SlidersHorizontal } from "lucide-react";
+import { AlertCircle, BookOpen, Check, Globe, ImagePlus, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Streamdown } from "streamdown";
@@ -23,6 +23,7 @@ import { SavedPrompts } from "@/components/saved-prompts";
 import { Sidebar } from "@/components/sidebar";
 import { TopPillBar } from "@/components/top-pill-bar";
 import { ComposerPill } from "@/components/composer-pill";
+import { ActionSheet, type ActionSheetItem } from "@/components/action-sheet";
 
 function ModelSelectorHandler({
   modelId,
@@ -119,15 +120,11 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
   const [currentPresetId, setCurrentPresetId] = useState("caption_writer");
   const [selectedFileName, setSelectedFileName] = useState("");
   const [favoritesOn, setFavoritesOn] = useState(false);
-  const [advancedMenuOpen, setAdvancedMenuOpen] = useState(false);
+  const [actionSheetOpen, setActionSheetOpen] = useState(false);
   const [showPresetsPanel, setShowPresetsPanel] = useState(false);
   const [showTemplatesPanel, setShowTemplatesPanel] = useState(false);
-  const [advancedIndicatorPosition, setAdvancedIndicatorPosition] = useState({ top: 0, left: 0 });
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const uploadInputRef = useRef<HTMLInputElement>(null);
-  const advancedMenuRef = useRef<HTMLDivElement>(null);
-  const advancedButtonRef = useRef<HTMLButtonElement>(null);
-  const composerShellRef = useRef<HTMLDivElement>(null);
 
   const handleModelIdChange = (newModelId: string) => {
     setCurrentModelId(newModelId);
@@ -188,10 +185,10 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
   }));
 
   leftActions.push({
-    id: "advanced-menu",
-    label: "Advanced",
-    icon: SlidersHorizontal,
-    onClick: () => setAdvancedMenuOpen((prev) => !prev),
+    id: "tools-menu",
+    label: "Tools",
+    icon: Plus,
+    onClick: () => setActionSheetOpen(true),
   });
 
   const rightActions = DEFAULT_COMPOSER_RIGHT_ACTIONS.map((action) => ({
@@ -202,62 +199,43 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
   const showComposerPanels =
     showPresetsPanel || showTemplatesPanel || Boolean(selectedFileName);
 
-  useEffect(() => {
-    const container = composerShellRef.current;
-
-    if (!container) {
-      return;
-    }
-
-    advancedButtonRef.current = container.querySelector(
-      'button[aria-label="Advanced"]',
-    ) as HTMLButtonElement | null;
-
-    if (!advancedButtonRef.current) {
-      return;
-    }
-
-    const buttonRect = advancedButtonRef.current.getBoundingClientRect();
-    const containerRect = container.getBoundingClientRect();
-
-    setAdvancedIndicatorPosition({
-      top: buttonRect.top - containerRect.top + 6,
-      left: buttonRect.left - containerRect.left + buttonRect.width - 10,
-    });
-  }, [hasMessages, input]);
-
-  useEffect(() => {
-    if (!advancedMenuOpen) {
-      return;
-    }
-
-    const closeOnOutsideClick = (event: MouseEvent) => {
-      const target = event.target as Node;
-
-      if (
-        advancedMenuRef.current?.contains(target) ||
-        advancedButtonRef.current?.contains(target)
-      ) {
-        return;
-      }
-
-      setAdvancedMenuOpen(false);
-    };
-
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setAdvancedMenuOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", closeOnOutsideClick);
-    document.addEventListener("keydown", closeOnEscape);
-
-    return () => {
-      document.removeEventListener("mousedown", closeOnOutsideClick);
-      document.removeEventListener("keydown", closeOnEscape);
-    };
-  }, [advancedMenuOpen]);
+  const actionSheetItems: ActionSheetItem[] = [
+    {
+      id: "create-image",
+      label: "Create image",
+      description: "Generate visuals from a prompt.",
+      icon: ImagePlus,
+      onClick: () => setInput((prev) => prev || "Create an image of "),
+    },
+    {
+      id: "web-search",
+      label: "Web search",
+      description: "Use online sources for up-to-date answers.",
+      icon: Globe,
+      onClick: () => setInput((prev) => prev || "Search the web for "),
+    },
+    {
+      id: "study",
+      label: "Study",
+      description: "Get step-by-step explanations and practice help.",
+      icon: BookOpen,
+      onClick: () => setInput((prev) => prev || "Help me study "),
+    },
+    {
+      id: "presets",
+      label: "Presets",
+      description: "Toggle the presets panel.",
+      icon: Check,
+      onClick: togglePresetsPanel,
+    },
+    {
+      id: "templates",
+      label: "Templates",
+      description: "Toggle the templates panel.",
+      icon: Check,
+      onClick: toggleTemplatesPanel,
+    },
+  ];
 
   return (
     <div className="flex h-screen flex-col overflow-hidden pl-16 pt-14">
@@ -303,7 +281,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                   onSend();
                 }}
               >
-                <div ref={composerShellRef} className="relative">
+                <div className="relative">
                   <ComposerPill
                     value={input}
                     onChange={setInput}
@@ -311,45 +289,6 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                     leftActions={leftActions}
                     rightActions={rightActions}
                   />
-                  {advancedMenuOpen && (
-                    <div
-                      ref={advancedMenuRef}
-                      className="absolute left-28 top-[calc(100%-2.25rem)] z-20 w-56 max-h-72 overflow-y-auto rounded-2xl border bg-background/90 p-2 shadow-border-medium backdrop-blur-sm"
-                    >
-                      <button
-                        type="button"
-                        className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm hover:bg-muted/70"
-                        onClick={togglePresetsPanel}
-                      >
-                        <span>Presets</span>
-                        <Check
-                          className={cn(
-                            "h-4 w-4",
-                            showPresetsPanel ? "opacity-100" : "opacity-0",
-                          )}
-                        />
-                      </button>
-                      <button
-                        type="button"
-                        className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm hover:bg-muted/70"
-                        onClick={toggleTemplatesPanel}
-                      >
-                        <span>Templates</span>
-                        <Check
-                          className={cn(
-                            "h-4 w-4",
-                            showTemplatesPanel ? "opacity-100" : "opacity-0",
-                          )}
-                        />
-                      </button>
-                    </div>
-                  )}
-                  {advancedEnabled && (
-                    <span
-                      className="pointer-events-none absolute z-10 h-1.5 w-1.5 rounded-full bg-primary"
-                      style={advancedIndicatorPosition}
-                    />
-                  )}
                   {showComposerPanels && (
                     <div className="mt-2 rounded-xl border bg-background/80 px-3 py-3 backdrop-blur-sm md:px-4">
                       <div className="flex items-center gap-2 md:gap-3">
@@ -457,7 +396,7 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
             }}
             className="px-4 md:px-8 pb-6 md:pb-8"
           >
-            <div ref={composerShellRef} className="relative">
+            <div className="relative">
               <ComposerPill
                 value={input}
                 onChange={setInput}
@@ -465,45 +404,6 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
                 leftActions={leftActions}
                 rightActions={rightActions}
               />
-              {advancedMenuOpen && (
-                <div
-                  ref={advancedMenuRef}
-                  className="absolute left-28 top-[calc(100%-2.25rem)] z-20 w-56 max-h-72 overflow-y-auto rounded-2xl border bg-background/90 p-2 shadow-border-medium backdrop-blur-sm"
-                >
-                  <button
-                    type="button"
-                    className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm hover:bg-muted/70"
-                    onClick={togglePresetsPanel}
-                  >
-                    <span>Presets</span>
-                    <Check
-                      className={cn(
-                        "h-4 w-4",
-                        showPresetsPanel ? "opacity-100" : "opacity-0",
-                      )}
-                    />
-                  </button>
-                  <button
-                    type="button"
-                    className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm hover:bg-muted/70"
-                    onClick={toggleTemplatesPanel}
-                  >
-                    <span>Templates</span>
-                    <Check
-                      className={cn(
-                        "h-4 w-4",
-                        showTemplatesPanel ? "opacity-100" : "opacity-0",
-                      )}
-                    />
-                  </button>
-                </div>
-              )}
-              {advancedEnabled && (
-                <span
-                  className="pointer-events-none absolute z-10 h-1.5 w-1.5 rounded-full bg-primary"
-                  style={advancedIndicatorPosition}
-                />
-              )}
               {showComposerPanels && (
                 <div className="mt-2 rounded-xl border bg-background/80 px-3 py-3 backdrop-blur-sm md:px-4">
                   <div className="flex items-center gap-2 md:gap-3">
@@ -558,6 +458,12 @@ export function Chat({ modelId = DEFAULT_MODEL }: { modelId: string }) {
           </Button>
         </p>
       </footer>
+
+      <ActionSheet
+        open={actionSheetOpen}
+        onOpenChange={setActionSheetOpen}
+        items={actionSheetItems}
+      />
     </div>
   );
 }
