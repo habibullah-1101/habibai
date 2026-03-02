@@ -1,34 +1,60 @@
 # Habib AI
 
-Habib AI is a lightweight chatbot app built with Next.js and the Vercel AI stack. It provides a simple starting point for building AI-powered chat experiences using the AI Gateway.
+> A ChatGPT-like AI Web Interface built with strict UI governance and phase-based architecture.
 
-## Tech Stack
+![Habib AI Preview](./public/preview.png)
 
-- Next.js
-- Vercel AI SDK
-- Vercel AI Gateway
-- Tailwind CSS
+---
 
-## Local Setup
+## ✨ Overview
 
-1. Install dependencies:
-   ```bash
-   pnpm i
-   ```
-2. Copy environment variables and set the gateway URL:
-   ```bash
-   cp .env.example .env.local
-   ```
-   Then set `AI_GATEWAY_BASE_URL` in `.env.local`.
-3. Start the development server:
-   ```bash
-   pnpm dev
-   ```
+Habib AI is a structured, phase-controlled AI chat interface built with:
 
-## Deploy
+- Design-token architecture
+- Strict PR governance
+- Incremental UI phases
+- Scroll-isolated layout system
 
-Deploy to Vercel.
+This project focuses on architectural discipline, not just UI cloning.
 
-## Credits
+---
 
-Originally based on the Vercel AI Gateway demo.
+## 🧠 Design Philosophy
+
+- Minimal diffs
+- No uncontrolled refactors
+- Phase-based development
+- Token-driven styling
+- Layout isolation before wiring
+
+Stability over cleverness.
+
+---
+
+## 🧱 Phase Architecture
+
+### Phase 0 — Governance
+CODEX rules & repository discipline.
+
+### Phase 1 — Design System
+- Tokens
+- Base components (ButtonBase, InputBase, CardBase)
+
+### Phase 2 — Layout Shell
+- Scroll isolation
+- Sidebar structure
+- Chat shell architecture
+
+### Phase 3 — Message Wiring
+- Message list
+- Composer logic
+- Model integration
+
+### Phase 4 — Advanced Features
+- Model selector
+- Streaming
+- UX refinements
+
+---
+
+## 🧩 Core Structure
