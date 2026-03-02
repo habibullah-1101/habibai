@@ -1,4 +1,5 @@
 import { Chat } from "@/components/chat";
+import { ChatShell } from "@/components/layout/chat-shell";
 
 export default async function Page({
   searchParams,
@@ -6,5 +7,10 @@ export default async function Page({
   searchParams: Promise<{ modelId: string }>;
 }) {
   const { modelId } = await searchParams;
-  return <Chat modelId={modelId} />;
+
+  return (
+    <ChatShell>
+      <Chat modelId={modelId} />
+    </ChatShell>
+  );
 }
