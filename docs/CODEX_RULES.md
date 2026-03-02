@@ -1,173 +1,105 @@
-# CODEX_RULES.md — Habib AI Web UI Governance
-
-This document defines the mandatory operating rules for Codex when working on this repository.
-
-If any requested task conflicts with these rules, Codex must STOP and request clarification.
-
----
-
-## 0. Core Principles (Non-Negotiable)
-
-- The goal is to build a ChatGPT-like web UI with controlled, minimal, incremental changes.
-- Every task must be:
-  - Small
-  - Isolated
-  - Reversible
-- Every PR must contain the smallest possible diff.
-- No unrequested refactors.
-- No architectural surprises.
-
----
-
-## 1. Workflow Requirements
-
-Each task must follow this order:
-
-1. Inspect relevant files
-2. Apply minimal changes
-3. Verify build passes
-4. Provide structured PR summary
-
-Each PR must include:
-
-- Summary (3–5 bullet points)
-- Files changed (explicit list)
-- Testing steps performed
-- Notes (if any risk exists)
-
----
-
-## 2. Forbidden Actions
-
-Codex must NOT:
-
-- Change fonts or add remote font sources.
-- Refactor existing components unless explicitly instructed.
-- Delete or rename existing UI files unless explicitly instructed.
-- Add new dependencies without explicit permission.
-- Perform large renaming operations.
-- Modify routing structure unless explicitly requested.
-
----
-
-## 3. Stability Rule
-
-No change may:
-
-- Break existing UI
-- Fail the build
-- Introduce casing conflicts
-- Cause unexpected side effects
-
----
-
-## 4. Case-Sensitive Filename Rule (Critical)
-
-This project must work correctly on case-sensitive systems (Linux/Vercel).
-
-Codex must:
-
-- Never create two files that differ only by casing.
-  Example (forbidden):
-  - `Button.tsx`
-  - `button.tsx`
-
-Before creating a new file, Codex must check that no case-insensitive duplicate exists.
-
----
-
-## 5. Migration Strategy
-
-When introducing new systems:
-
-- Create new isolated components (e.g. `*-base`, `*-next`)
-- Do NOT modify legacy components unless explicitly instructed
-- Do NOT delete existing exports without migration instructions
-
-Example (correct approach):
-
-- `button-base.tsx` (new system)
-- `button.tsx` (legacy, untouched)
-
----
-
-## 6. No Shim Files
-
-Codex must not create re-export shim files unless explicitly instructed.
-
-Example of forbidden behavior:
-
-Creating `button.ts` just to re-export from `Button.tsx`.
-
----
-
-## 7. Design Token Policy
-
-- Styling changes must primarily use design tokens.
-- Tokens must be centralized.
-- Do not scatter CSS variables across multiple unrelated files.
-
----
-
-## 8. Phase Discipline
-
-Codex must respect UI build order:
-
-Phase 1 — Design System (tokens + base components)  
-Phase 2 — Layout Shell (sidebar, header, layout structure)  
-Phase 3 — Wiring (message list, composer, interactions)  
-Phase 4 — Advanced features  
-Phase 5 — Polish & responsiveness  
-
-Do not skip phases.
-
----
-
-## 9. Mandatory Testing
-
-Every PR must:
-
-- Pass `pnpm build`
-- Not introduce TypeScript errors
-- Not introduce casing conflicts
-
-If build fails:
-- Fix before requesting merge.
-
----
-
-## 10. PR Scope Rules
-
-Each PR must:
-
-- Have exactly one objective.
-- Not mix unrelated concerns.
-- Avoid large diffs.
-- Avoid cross-cutting refactors.
-
-Title format:
-`Phase X.Y — Short Description`
-
----
-
-## 11. Stop Conditions
-
-Codex must STOP and request clarification if:
-
-- A change affects existing core UI unexpectedly.
-- A file naming conflict may occur.
-- A dependency addition is required.
-- A refactor becomes large.
-- Build fails due to structural conflict.
-
----
-
 ## 12. Golden Rule
 
-Minimal change.
-Minimal files.
+Minimal change.  
+Minimal files.  
 Minimal risk.
 
-Precision over speed.
-Stability over cleverness.
+Precision over speed.  
+Stability over cleverness.  
 Control over automation.
+
+---
+
+## 13. Token & Tailwind Arbitrary Value Rules (Strict)
+
+To avoid Tailwind parsing inconsistencies and token drift, the following rules are mandatory for all new UI code.
+
+### 13.1 Border Color Rule (Critical)
+
+When using CSS variables for border color, you MUST use:
+
+- `border border-[color:var(--border)]`
+
+You MUST NOT use:
+
+- `border-[var(--border)]`
+
+Reason:
+Tailwind may interpret `border-[...]` as border-width instead of border-color.
+Using the explicit `color:` prefix ensures correct parsing.
+
+This rule applies to:
+- border color tokens
+- outline color tokens
+- ring color tokens (when using arbitrary values)
+
+---
+
+### 13.2 Arbitrary Token Convention
+
+When using CSS variables inside Tailwind arbitrary values:
+
+Allowed patterns:
+
+- `bg-[var(--surface)]`
+- `text-[var(--text)]`
+- `border-[color:var(--border)]`
+- `outline-[color:var(--ring)]`
+- `ring-[color:var(--ring)]`
+
+Do NOT mix inconsistent patterns across components.
+New UI components must follow the same convention used in the Design System base components.
+
+---
+
+### 13.3 Token Source of Truth
+
+For new UI work (Design System and Chat UI), the canonical token namespace is:
+
+- `--bg`
+- `--surface`
+- `--surface-2`
+- `--text`
+- `--muted`
+- `--border`
+- `--ring`
+- `--accent`
+- `--accent-weak`
+- `--r-sm`
+- `--r-md`
+- `--r-lg`
+
+Legacy tokens such as:
+- `--background`
+- `--foreground`
+- or other theme aliases
+
+Must NOT be used in new UI components unless explicitly instructed.
+
+---
+
+### 13.4 Inline Style Policy
+
+Inline `style={{ ... }}` usage is discouraged.
+
+Allowed:
+- Very small, isolated dynamic values (e.g. animationDelay)
+
+Forbidden:
+- Structural layout styling
+- Color, border, background styling
+- Token-based styling via inline styles
+
+If inline style is used:
+- It must be justified in the PR summary.
+- It must not replace token-based class styling.
+
+---
+
+### 13.5 Consistency Over Cleverness
+
+Do not introduce alternative token syntax, utility patterns, or style approaches
+if an equivalent pattern already exists in the Design System base components.
+
+Match existing patterns.
+Do not invent new ones.
