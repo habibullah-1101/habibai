@@ -226,9 +226,9 @@ Attached file: ${fileName}` : `Attached file: ${fileName}`));
           <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 pb-48">
             <MessageList
               messages={messages}
-              regenerate={regenerate}
               status={status}
               error={error}
+              regenerate={regenerate}
             />
             <div ref={messagesEndRef} />
           </div>
