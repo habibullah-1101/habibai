@@ -8,15 +8,14 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { useState, useEffect, useRef } from "react";
 import { DEFAULT_MODEL } from "@/lib/constants";
 import { DEFAULT_COMPOSER_RIGHT_ACTIONS } from "@/lib/ui-config";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle, Menu, Plus } from "lucide-react";
+import { Menu, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Streamdown } from "streamdown";
 import { Sidebar } from "@/components/sidebar";
 import { TopPillBar } from "@/components/top-pill-bar";
 import { ComposerPill } from "@/components/composer-pill";
 import { ActionSheet, type ActionSheetItem } from "@/components/action-sheet";
 import { TOOLS_MENU, TOOLS_MENU_TITLES, type ToolsMenuPanel } from "@/lib/tools-menu";
+import { MessageList } from "@/components/message-list";
 
 function ModelSelectorHandler({
   modelId,
@@ -232,50 +231,12 @@ Attached file: ${fileName}` : `Attached file: ${fileName}`));
       {hasMessages && (
         <main className="flex-1 overflow-y-auto px-4 py-6 md:px-8">
           <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 pb-48">
-            {messages.map((message, index) => (
-              <article
-                key={message.id}
-                className={cn(
-                  "w-full rounded-2xl px-5 py-4 shadow-border-small",
-                  message.role === "user"
-                    ? "ml-auto max-w-[85%] bg-muted/80"
-                    : "mr-auto max-w-[90%] bg-background border"
-                )}
-              >
-                <header className="mb-2 text-xs uppercase tracking-wider text-muted-foreground">
-                  {message.role === "user" ? "You" : "Habib AI"}
-                </header>
-                <div className="text-sm leading-relaxed">
-                  {message.parts.map((part, partIndex) => {
-                    if (part.type === "text") {
-                      return <Streamdown key={`${message.id}-${partIndex}`}>{part.text}</Streamdown>;
-                    }
-
-                    return null;
-                  })}
-                </div>
-                {message.role === "assistant" && index === messages.length - 1 && status === "ready" && (
-                  <div className="mt-4 flex justify-end">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => regenerate()}
-                      className="rounded-full"
-                    >
-                      Regenerate
-                    </Button>
-                  </div>
-                )}
-              </article>
-            ))}
-            {error && (
-              <Alert variant="destructive" className="animate-slide-up">
-                <AlertCircle className="h-4 w-4" />
-                <AlertDescription>
-                  {error.message || "Something went wrong while generating the response."}
-                </AlertDescription>
-              </Alert>
-            )}
+            <MessageList
+              messages={messages}
+              regenerate={regenerate}
+              status={status}
+              error={error}
+            />
             <div ref={messagesEndRef} />
           </div>
         </main>
