@@ -12,7 +12,7 @@ import { Menu, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Sidebar } from "@/components/sidebar";
 import { TopPillBar } from "@/components/top-pill-bar";
-import { ComposerPill } from "@/components/composer-pill";
+import { ChatComposerRegion } from "@/components/chat-composer-region";
 import { ActionSheet, type ActionSheetItem } from "@/components/action-sheet";
 import { TOOLS_MENU, TOOLS_MENU_TITLES, type ToolsMenuPanel } from "@/lib/tools-menu";
 import { MessageList } from "@/components/message-list";
@@ -208,22 +208,15 @@ Attached file: ${fileName}` : `Attached file: ${fileName}`));
                 HABIB AI
               </span>
             </h1>
-            <div className="w-full animate-slide-up" style={{ animationDelay: '100ms' }}>
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  onSend();
-                }}
-              >
-                <ComposerPill
-                  value={input}
-                  onChange={setInput}
-                  leftActions={leftActions}
-                  rightActions={rightActions}
-                  onSend={onSend}
-                />
-              </form>
-            </div>
+            <ChatComposerRegion
+              className="w-full animate-slide-up"
+              style={{ animationDelay: "100ms" }}
+              value={input}
+              onChange={setInput}
+              leftActions={leftActions}
+              rightActions={rightActions}
+              onSend={onSend}
+            />
           </div>
         </div>
       )}
@@ -245,20 +238,13 @@ Attached file: ${fileName}` : `Attached file: ${fileName}`));
       {hasMessages && (
         <div className="pointer-events-none fixed inset-x-0 bottom-0 z-20 flex justify-center px-4 pb-6 md:left-16 md:px-8">
           <div className="pointer-events-auto w-full max-w-4xl">
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                onSend();
-              }}
-            >
-              <ComposerPill
-                value={input}
-                onChange={setInput}
-                leftActions={leftActions}
-                rightActions={rightActions}
-                onSend={onSend}
-              />
-            </form>
+            <ChatComposerRegion
+              value={input}
+              onChange={setInput}
+              leftActions={leftActions}
+              rightActions={rightActions}
+              onSend={onSend}
+            />
           </div>
         </div>
       )}
