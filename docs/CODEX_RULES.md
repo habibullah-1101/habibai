@@ -1,4 +1,4 @@
-## 12. Golden Rule
+## 1. Golden Rule
 
 Minimal change.  
 Minimal files.  
@@ -10,11 +10,11 @@ Control over automation.
 
 ---
 
-## 13. Token & Tailwind Arbitrary Value Rules (Strict)
+## 2. Token & Tailwind Arbitrary Value Rules (Strict)
 
 To avoid Tailwind parsing inconsistencies and token drift, the following rules are mandatory for all new UI code.
 
-### 13.1 Border Color Rule (Critical)
+### 2.1 Border Color Rule (Critical)
 
 When using CSS variables for border color, you MUST use:
 
@@ -35,7 +35,7 @@ This rule applies to:
 
 ---
 
-### 13.2 Arbitrary Token Convention
+### 2.2 Arbitrary Token Convention
 
 When using CSS variables inside Tailwind arbitrary values:
 
@@ -52,7 +52,7 @@ New UI components must follow the same convention used in the Design System base
 
 ---
 
-### 13.3 Token Source of Truth
+### 2.3 Token Source of Truth
 
 For new UI work (Design System and Chat UI), the canonical token namespace is:
 
@@ -78,7 +78,7 @@ Must NOT be used in new UI components unless explicitly instructed.
 
 ---
 
-### 13.4 Inline Style Policy
+### 2.4 Inline Style Policy
 
 Inline `style={{ ... }}` usage is discouraged.
 
@@ -96,7 +96,7 @@ If inline style is used:
 
 ---
 
-### 13.5 Consistency Over Cleverness
+### 2.5 Consistency Over Cleverness
 
 Do not introduce alternative token syntax, utility patterns, or style approaches
 if an equivalent pattern already exists in the Design System base components.
